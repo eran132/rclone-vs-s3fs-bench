@@ -1,0 +1,37 @@
+File: rclone
+Build ID: af1e41c07d7058d38c0a0f52143210b49eada9ad
+Type: inuse_space
+Time: Apr 26, 2026 at 5:12am (UTC)
+Showing nodes accounting for 7202.80kB, 23.66% of 30438.88kB total
+Showing top 30 nodes out of 228
+      flat  flat%   sum%        cum   cum%
+         0     0%     0% 13374.28kB 43.94%  bazil.org/fuse/fs.(*Server).Serve.func1
+         0     0%     0% 13374.28kB 43.94%  bazil.org/fuse/fs.(*Server).handleRequest
+         0     0%     0% 13374.28kB 43.94%  bazil.org/fuse/fs.(*Server).serve
+         0     0%     0%  9805.13kB 32.21%  runtime.main
+         0     0%     0%  8780.98kB 28.85%  runtime.doInit (inline)
+         0     0%     0%  8780.98kB 28.85%  runtime.doInit1
+         0     0%     0%  5134.13kB 16.87%  bazil.org/fuse/fs.(*Server).saveLookup
+  512.01kB  1.68%  1.68%  4116.78kB 13.52%  github.com/rclone/rclone/cmd/mount.(*Dir).Lookup
+         0     0%  1.68%     4097kB 13.46%  github.com/rclone/rclone/backend/s3.(*Object).setMetaData
+ 3584.98kB 11.78% 13.46%     4097kB 13.46%  github.com/rclone/rclone/backend/s3.s3MetadataToMap
+         0     0% 13.46%  4096.73kB 13.46%  github.com/rclone/rclone/vfs/vfscache.(*Item).Close.func2
+         0     0% 13.46%  4096.73kB 13.46%  github.com/rclone/rclone/vfs/vfscache.(*Item)._store
+         0     0% 13.46%  4096.73kB 13.46%  github.com/rclone/rclone/vfs/vfscache.(*Item).store
+         0     0% 13.46%  4096.73kB 13.46%  github.com/rclone/rclone/vfs/vfscache/writeback.(*WriteBack).upload
+         0     0% 13.46%  3604.78kB 11.84%  github.com/rclone/rclone/vfs.(*Dir).Stat
+         0     0% 13.46%  3604.78kB 11.84%  github.com/rclone/rclone/vfs.(*Dir)._readDir
+         0     0% 13.46%  3604.78kB 11.84%  github.com/rclone/rclone/vfs.(*Dir).stat
+  532.26kB  1.75% 15.21%  2580.63kB  8.48%  github.com/rclone/rclone/vfs.(*Dir)._readDirFromEntries
+ 2573.55kB  8.45% 23.66%  2573.55kB  8.45%  bazil.org/fuse/fs.(*Server).saveNode
+         0     0% 23.66%  2560.59kB  8.41%  github.com/rclone/rclone/backend/s3.(*Object).Update
+         0     0% 23.66%  2560.59kB  8.41%  github.com/rclone/rclone/fs/operations.(*copy).copy
+         0     0% 23.66%  2560.59kB  8.41%  github.com/rclone/rclone/fs/operations.(*copy).manualCopy
+         0     0% 23.66%  2560.59kB  8.41%  github.com/rclone/rclone/fs/operations.(*copy).updateOrPut
+         0     0% 23.66%  2560.59kB  8.41%  github.com/rclone/rclone/fs/operations.Copy
+         0     0% 23.66%  2560.59kB  8.41%  github.com/rclone/rclone/vfs/vfscache.(*Item)._store.func1
+         0     0% 23.66%  2560.59kB  8.41%  github.com/rclone/rclone/vfs/vfscache.unlockMutexForCall
+         0     0% 23.66%  2560.57kB  8.41%  bazil.org/fuse/fs.nodeAttr
+         0     0% 23.66%  2560.57kB  8.41%  github.com/rclone/rclone/backend/s3.(*Object).ModTime
+         0     0% 23.66%  2560.57kB  8.41%  github.com/rclone/rclone/backend/s3.(*Object).readMetaData
+         0     0% 23.66%  2560.57kB  8.41%  github.com/rclone/rclone/cmd/mount.(*File).Attr

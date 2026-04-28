@@ -1,0 +1,39 @@
+File: rclone
+Build ID: af1e41c07d7058d38c0a0f52143210b49eada9ad
+Type: cpu
+Time: Apr 26, 2026 at 5:10am (UTC)
+Duration: 30.15s, Total samples = 35.16s (116.61%)
+Showing nodes accounting for 10.61s, 30.18% of 35.16s total
+Dropped 558 nodes (cum <= 0.18s)
+Showing top 30 nodes out of 205
+      flat  flat%   sum%        cum   cum%
+         0     0%     0%     26.33s 74.89%  io.Copy (inline)
+     0.05s  0.14%  0.14%     26.33s 74.89%  io.copyBuffer
+         0     0%  0.14%     11.93s 33.93%  github.com/aws/smithy-go/middleware.decoratedHandler.Handle
+         0     0%  0.14%     11.70s 33.28%  github.com/aws/smithy-go/middleware.decoratedBuildHandler.HandleBuild (partial-inline)
+         0     0%  0.14%     11.61s 33.02%  github.com/aws/smithy-go/middleware.decoratedFinalizeHandler.HandleFinalize (partial-inline)
+     0.01s 0.028%  0.17%     11.59s 32.96%  github.com/aws/aws-sdk-go-v2/aws/retry.(*Attempt).HandleFinalize
+         0     0%  0.17%     11.56s 32.88%  github.com/aws/smithy-go/transport/http.(*InterceptBeforeRetryLoop).HandleFinalize
+         0     0%  0.17%     11.55s 32.85%  github.com/aws/aws-sdk-go-v2/aws/retry.(*Attempt).handleAttempt
+         0     0%  0.17%     11.55s 32.85%  github.com/aws/aws-sdk-go-v2/aws/retry.MetricsHeader.HandleFinalize
+         0     0%  0.17%     11.55s 32.85%  github.com/aws/aws-sdk-go-v2/service/s3.(*spanRetryLoop).HandleFinalize
+     0.01s 0.028%   0.2%     11.55s 32.85%  github.com/aws/smithy-go/middleware.(*FinalizeStep).HandleMiddleware
+         0     0%   0.2%     11.54s 32.82%  github.com/aws/aws-sdk-go-v2/service/internal/accept-encoding.(*DisableGzip).HandleFinalize
+         0     0%   0.2%     11.54s 32.82%  github.com/aws/aws-sdk-go-v2/service/s3.(*resolveAuthSchemeMiddleware).HandleFinalize
+         0     0%   0.2%     11.54s 32.82%  github.com/aws/smithy-go/transport/http.(*InterceptAttempt).HandleFinalize
+         0     0%   0.2%     11.52s 32.76%  github.com/aws/aws-sdk-go-v2/aws/middleware.(*RecursionDetection).HandleBuild
+         0     0%   0.2%     11.51s 32.74%  github.com/aws/smithy-go/middleware.buildWrapHandler.HandleBuild
+         0     0%   0.2%     11.46s 32.59%  github.com/aws/aws-sdk-go-v2/aws/middleware.(*RequestUserAgent).HandleBuild
+         0     0%   0.2%     11.46s 32.59%  github.com/aws/smithy-go/transport/http.(*ComputeContentLength).HandleBuild
+         0     0%   0.2%     11.43s 32.51%  github.com/aws/aws-sdk-go-v2/service/s3.setCredentialSourceMiddleware.HandleBuild
+         0     0%   0.2%     11.39s 32.39%  github.com/aws/aws-sdk-go-v2/aws/middleware.ClientRequestID.HandleBuild
+         0     0%   0.2%     11.23s 31.94%  github.com/aws/smithy-go/middleware.(*BuildStep).HandleMiddleware
+         0     0%   0.2%     11.02s 31.34%  github.com/aws/smithy-go/middleware.decoratedSerializeHandler.HandleSerialize (inline)
+         0     0%   0.2%     11.01s 31.31%  github.com/aws/smithy-go/middleware.serializeWrapHandler.HandleSerialize
+         0     0%   0.2%        11s 31.29%  github.com/aws/aws-sdk-go-v2/service/s3.(*isExpressUserAgent).HandleSerialize
+     0.02s 0.057%  0.26%     10.78s 30.66%  github.com/aws/aws-sdk-go-v2/service/s3.(*getIdentityMiddleware).HandleFinalize
+         0     0%  0.26%     10.75s 30.57%  github.com/aws/aws-sdk-go-v2/service/s3.(*resolveEndpointV2Middleware).HandleFinalize
+         0     0%  0.26%     10.71s 30.46%  github.com/aws/aws-sdk-go-v2/aws/signer/v4.(*ComputePayloadSHA256).HandleFinalize
+         0     0%  0.26%     10.71s 30.46%  github.com/aws/aws-sdk-go-v2/service/s3.(*disableHTTPSMiddleware).HandleFinalize
+    10.46s 29.75% 30.01%     10.46s 29.75%  internal/runtime/syscall.Syscall6
+     0.06s  0.17% 30.18%     10.37s 29.49%  syscall.RawSyscall6

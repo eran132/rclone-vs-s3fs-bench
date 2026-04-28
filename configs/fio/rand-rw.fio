@@ -1,0 +1,12 @@
+[global]
+ioengine=psync
+direct=0
+group_reporting=1
+
+[rand-rw]
+rw=randrw
+rwmixread=70
+bs=4k
+size=2G
+numjobs=1
+filename=${MNT}/rand-rw.bin

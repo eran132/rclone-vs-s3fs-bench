@@ -1,0 +1,17 @@
+[global]
+ioengine=psync
+direct=0
+group_reporting=1
+fsync_on_close=1
+create_on_open=1
+
+[small-files-write]
+rw=write
+bs=16k
+# total = nrfiles * per-file size; we want 10000 files * 16 KiB each = 160 MiB
+size=160m
+nrfiles=10000
+openfiles=128
+file_service_type=sequential
+directory=${MNT}/smallfiles
+filename_format=f.$jobnum.$filenum

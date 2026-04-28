@@ -1,0 +1,39 @@
+File: rclone
+Build ID: af1e41c07d7058d38c0a0f52143210b49eada9ad
+Type: cpu
+Time: Apr 26, 2026 at 5:01am (UTC)
+Duration: 30.11s, Total samples = 28.18s (93.61%)
+Showing nodes accounting for 22.56s, 80.06% of 28.18s total
+Dropped 167 nodes (cum <= 0.14s)
+Showing top 30 nodes out of 106
+      flat  flat%   sum%        cum   cum%
+         0     0%     0%     19.98s 70.90%  github.com/rclone/rclone/backend/local.(*Object).Hash
+         0     0%     0%     19.98s 70.90%  github.com/rclone/rclone/backend/s3.(*Fs).OpenChunkWriter
+         0     0%     0%     19.98s 70.90%  github.com/rclone/rclone/backend/s3.(*Object).prepareUpload
+         0     0%     0%     19.98s 70.90%  github.com/rclone/rclone/fs/hash.StreamTypes
+         0     0%     0%     19.98s 70.90%  github.com/rclone/rclone/fs/operations.(*copy).copy
+         0     0%     0%     19.98s 70.90%  github.com/rclone/rclone/fs/operations.(*copy).manualCopy
+         0     0%     0%     19.98s 70.90%  github.com/rclone/rclone/fs/operations.(*copy).multiThreadCopy
+         0     0%     0%     19.98s 70.90%  github.com/rclone/rclone/fs/operations.Copy
+         0     0%     0%     19.98s 70.90%  github.com/rclone/rclone/fs/operations.multiThreadCopy
+         0     0%     0%     19.98s 70.90%  github.com/rclone/rclone/vfs/vfscache.(*Item).Close.func2
+         0     0%     0%     19.98s 70.90%  github.com/rclone/rclone/vfs/vfscache.(*Item)._store
+         0     0%     0%     19.98s 70.90%  github.com/rclone/rclone/vfs/vfscache.(*Item)._store.func1
+         0     0%     0%     19.98s 70.90%  github.com/rclone/rclone/vfs/vfscache.(*Item).store
+         0     0%     0%     19.98s 70.90%  github.com/rclone/rclone/vfs/vfscache.unlockMutexForCall
+         0     0%     0%     19.98s 70.90%  github.com/rclone/rclone/vfs/vfscache/writeback.(*WriteBack).upload
+         0     0%     0%     19.98s 70.90%  io.Copy (inline)
+     0.02s 0.071% 0.071%     19.98s 70.90%  io.copyBuffer
+     0.01s 0.035%  0.11%     13.49s 47.87%  io.(*multiWriter).Write
+     0.02s 0.071%  0.18%     13.48s 47.84%  crypto/md5.(*digest).Write
+    13.46s 47.76% 47.94%     13.46s 47.76%  crypto/md5.block
+     8.94s 31.72% 79.67%      8.94s 31.72%  internal/runtime/syscall.Syscall6
+         0     0% 79.67%      8.92s 31.65%  syscall.RawSyscall6
+     0.05s  0.18% 79.84%      6.47s 22.96%  github.com/rclone/rclone/lib/readers.(*contextReader).Read
+     0.01s 0.035% 79.88%      6.40s 22.71%  github.com/rclone/rclone/backend/local.fadviseReadCloser.Read
+         0     0% 79.88%         6s 21.29%  syscall.Syscall
+     0.01s 0.035% 79.91%      5.50s 19.52%  syscall.Read (inline)
+     0.01s 0.035% 79.95%      5.49s 19.48%  syscall.read
+         0     0% 79.95%      5.01s 17.78%  os.(*File).Read
+     0.01s 0.035% 79.99%      4.98s 17.67%  os.(*File).read (inline)
+     0.02s 0.071% 80.06%      4.97s 17.64%  internal/poll.(*FD).Read

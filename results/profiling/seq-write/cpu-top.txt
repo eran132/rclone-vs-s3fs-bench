@@ -1,0 +1,39 @@
+File: rclone
+Build ID: af1e41c07d7058d38c0a0f52143210b49eada9ad
+Type: cpu
+Time: Apr 26, 2026 at 5:00am (UTC)
+Duration: 30.11s, Total samples = 12.65s (42.02%)
+Showing nodes accounting for 10.99s, 86.88% of 12.65s total
+Dropped 169 nodes (cum <= 0.06s)
+Showing top 30 nodes out of 79
+      flat  flat%   sum%        cum   cum%
+     0.02s  0.16%  0.16%      9.67s 76.44%  bazil.org/fuse/fs.(*Server).Serve.func1
+     0.03s  0.24%   0.4%      9.65s 76.28%  bazil.org/fuse/fs.(*Server).serve
+     0.02s  0.16%  0.55%      9.52s 75.26%  bazil.org/fuse/fs.(*Server).handleRequest
+     0.02s  0.16%  0.71%      9.20s 72.73%  syscall.RawSyscall6
+     9.19s 72.65% 73.36%      9.19s 72.65%  internal/runtime/syscall.Syscall6
+     0.01s 0.079% 73.44%      8.21s 64.90%  github.com/rclone/rclone/cmd/mount.(*FileHandle).Write
+     0.01s 0.079% 73.52%      8.17s 64.58%  github.com/rclone/rclone/vfs.(*RWFileHandle).WriteAt
+         0     0% 73.52%      8.16s 64.51%  github.com/rclone/rclone/vfs.(*RWFileHandle)._writeAt
+         0     0% 73.52%      7.50s 59.29%  github.com/rclone/rclone/vfs/vfscache.(*Item).WriteAt
+         0     0% 73.52%      7.47s 59.05%  internal/poll.(*FD).Pwrite
+         0     0% 73.52%      7.47s 59.05%  os.(*File).WriteAt
+         0     0% 73.52%      7.47s 59.05%  os.(*File).pwrite (inline)
+         0     0% 73.52%      7.47s 59.05%  syscall.Pwrite (inline)
+         0     0% 73.52%      7.47s 59.05%  syscall.Syscall6
+         0     0% 73.52%      7.47s 59.05%  syscall.pwrite
+         0     0% 73.52%      1.78s 14.07%  syscall.Syscall
+     1.65s 13.04% 86.56%      1.65s 13.04%  runtime.futex
+     0.01s 0.079% 86.64%      1.61s 12.73%  bazil.org/fuse/fs.(*Server).Serve
+         0     0% 86.64%      1.61s 12.73%  github.com/rclone/rclone/cmd/mount.mount.func2
+     0.01s 0.079% 86.72%      1.45s 11.46%  runtime.wakep
+         0     0% 86.72%      1.42s 11.23%  runtime.futexwakeup
+         0     0% 86.72%      1.42s 11.23%  runtime.notewakeup
+         0     0% 86.72%      1.39s 10.99%  runtime.startm
+         0     0% 86.72%      1.33s 10.51%  runtime.mcall
+         0     0% 86.72%      1.29s 10.20%  runtime.schedule
+         0     0% 86.72%      1.20s  9.49%  runtime.goexit0
+     0.01s 0.079% 86.80%      0.94s  7.43%  bazil.org/fuse.(*WriteRequest).Respond
+         0     0% 86.80%      0.93s  7.35%  bazil.org/fuse.(*Header).respond
+     0.01s 0.079% 86.88%      0.88s  6.96%  bazil.org/fuse.(*Conn).respond
+         0     0% 86.88%      0.87s  6.88%  bazil.org/fuse.(*Conn).ReadRequest

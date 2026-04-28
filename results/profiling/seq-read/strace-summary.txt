@@ -1,0 +1,8 @@
+strace: Process 268 attached
+strace: Process 268 detached
+% time     seconds  usecs/call     calls    errors syscall
+------ ----------- ----------- --------- --------- ----------------
+ 99.98   17.071611       43439       393       393 futex
+  0.02    0.002826          76        37           rt_sigreturn
+------ ----------- ----------- --------- --------- ----------------
+100.00   17.074437       39707       430       393 total

@@ -1,0 +1,229 @@
+goroutine profile: total 31
+4 @ 0x481d0e 0x415373 0x414ef2 0x155e7bf 0x48a821
+#	0x155e7be	github.com/rclone/rclone/backend/local.(*fadvise).worker+0x3e	github.com/rclone/rclone/backend/local/fadvise_unix.go:114
+
+4 @ 0x481d0e 0x443bd7 0x480ee5 0x513ce7 0x514fd9 0x514fc7 0x592185 0x5a4ba5 0xa6a749 0x7b8407 0x5bf163 0x5bf293 0x7b8f12 0x48a821
+#	0x480ee4	internal/poll.runtime_pollWait+0x84				runtime/netpoll.go:351
+#	0x513ce6	internal/poll.(*pollDesc).wait+0x26				internal/poll/fd_poll_runtime.go:84
+#	0x514fd8	internal/poll.(*pollDesc).waitRead+0x278			internal/poll/fd_poll_runtime.go:89
+#	0x514fc6	internal/poll.(*FD).Read+0x266					internal/poll/fd_unix.go:165
+#	0x592184	net.(*netFD).Read+0x24						net/fd_posix.go:68
+#	0x5a4ba4	net.(*conn).Read+0x44						net/net.go:196
+#	0xa6a748	github.com/rclone/rclone/fs/fshttp.(*timeoutConn).Read+0x28	github.com/rclone/rclone/fs/fshttp/dialer.go:111
+#	0x7b8406	net/http.(*persistConn).Read+0x46				net/http/transport.go:2125
+#	0x5bf162	bufio.(*Reader).fill+0x102					bufio/bufio.go:113
+#	0x5bf292	bufio.(*Reader).Peek+0x52					bufio/bufio.go:152
+#	0x7b8f11	net/http.(*persistConn).readLoop+0x171				net/http/transport.go:2278
+
+4 @ 0x481d0e 0x45e337 0x7ba927 0x48a821
+#	0x7ba926	net/http.(*persistConn).writeLoop+0xe6	net/http/transport.go:2600
+
+4 @ 0x481d0e 0x45e337 0x7bb7cd 0x7af8cf 0xa6d18a 0xa6d172 0x74bd02 0x74b5b1 0x74dac9 0x74d0d3 0x16901d8 0x168b59d 0x1696c8f 0x168b4e5 0x16a31ae 0x168b4e5 0x18432ee 0x168b4e5 0x16d24dc 0x168b4e5 0x16d2b93 0x168b4e5 0x1695b33 0x168b4e5 0x16958f3 0x168b4e5 0x16a3762 0x1687617 0x16875eb 0x168bc05 0x168b83d 0x17cb318 0x168b785 0x17c9365 0x168b785 0x16b7eda 0x168b785 0x16b73c8 0x168b785 0x16cd049 0x168b785 0x16cc9b8 0x168b785 0x1704e83 0x168b785 0x18d2f62 0x168b785 0x17caa7c 0x168b785 0x17c9e70 0x168b785 0x16ab4e4 0x168b785 0x1693e64 0x168b785 0x16a9fdb 0x16a9026 0x168b785 0x169300a 0x168b785 0x1702929 0x168b785 0x16c793e 0x1688477 0x168844b 0x168bc05 0x168b43d 0x16a3ad8 0x168b385 0x16d319a 0x168b385 0x16a4cad 0x168b385 0x17033c8 0x168b385 0x16cb98a 0x168b385 0x1695efc 0x168b385 0x16a3065 0x16868b7 0x168688b 0x168bc05 0x168bb31 0x18d6015 0x168ba5a 0x16e3af1 0x168ba5a 0x16e5215 0x168ba5a 0x1945e73 0x168ba5a 0x18d6b26 0x168ba5a 0x16e41e2 0x168ba5a 0x16e0e19 0x168ba5a 0x18a2fd5 0x168ba5a 0x1700875 0x168ba5a 0x17cb7fc 0x1689f6f 0x1689f31 0x168bc05 0x168b99d 0x19b6f46 0x168b8e5 0x1684eec 0x168b8e5 0x16d2142 0x168b8e5 0x17012de 0x168b8e5 0x16a2de6 0x168b8e5 0x16ce50b 0x16891d7 0x16891ab 0x168bc05 0x1685503 0x168bc05 0x16ffe8b 0x17a9e25 0x1d98cbe 0x7e70b2 0x7d2052
+#	0x7bb7cc	net/http.(*persistConn).roundTrip+0x74c											net/http/transport.go:2836
+#	0x7af8ce	net/http.(*Transport).roundTrip+0xa8e											net/http/transport.go:696
+#	0xa6d189	net/http.(*Transport).RoundTrip+0x349											net/http/roundtrip.go:33
+#	0xa6d171	github.com/rclone/rclone/fs/fshttp.(*Transport).RoundTrip+0x331								github.com/rclone/rclone/fs/fshttp/http.go:496
+#	0x74bd01	net/http.send+0x5e1													net/http/client.go:259
+#	0x74b5b0	net/http.(*Client).send+0x90												net/http/client.go:180
+#	0x74dac8	net/http.(*Client).do+0x9c8												net/http/client.go:729
+#	0x74d0d2	net/http.(*Client).Do+0x12												net/http/client.go:587
+#	0x16901d7	github.com/aws/smithy-go/transport/http.ClientHandler.Handle+0x357							github.com/aws/smithy-go@v1.24.2/transport/http/client.go:92
+#	0x168b59c	github.com/aws/smithy-go/middleware.deserializeWrapHandler.HandleDeserialize+0x3c					github.com/aws/smithy-go@v1.24.2/middleware/step_deserialize.go:272
+#	0x1696c8e	github.com/aws/smithy-go/transport/http.(*RequestResponseLogger).HandleDeserialize+0x28e				github.com/aws/smithy-go@v1.24.2/transport/http/middleware_http_logging.go:58
+#	0x168b4e4	github.com/aws/smithy-go/middleware.decoratedDeserializeHandler.HandleDeserialize+0x44					github.com/aws/smithy-go@v1.24.2/middleware/step_deserialize.go:289
+#	0x16a31ad	github.com/aws/aws-sdk-go-v2/aws/middleware.RecordResponseTiming.HandleDeserialize+0x6d					github.com/aws/aws-sdk-go-v2@v1.41.5/aws/middleware/middleware.go:57
+#	0x168b4e4	github.com/aws/smithy-go/middleware.decoratedDeserializeHandler.HandleDeserialize+0x44					github.com/aws/smithy-go@v1.24.2/middleware/step_deserialize.go:289
+#	0x18432ed	github.com/aws/aws-sdk-go-v2/service/s3.(*awsRestxml_deserializeOpPutObject).HandleDeserialize+0x8d			github.com/aws/aws-sdk-go-v2/service/s3@v1.97.3/deserializers.go:12567
+#	0x168b4e4	github.com/aws/smithy-go/middleware.decoratedDeserializeHandler.HandleDeserialize+0x44					github.com/aws/smithy-go@v1.24.2/middleware/step_deserialize.go:289
+#	0x16d24db	github.com/aws/aws-sdk-go-v2/service/internal/s3shared.(*metadataRetriever).HandleDeserialize+0x5b			github.com/aws/aws-sdk-go-v2/service/internal/s3shared@v1.19.21/metadata_retriever.go:32
+#	0x168b4e4	github.com/aws/smithy-go/middleware.decoratedDeserializeHandler.HandleDeserialize+0x44					github.com/aws/smithy-go@v1.24.2/middleware/step_deserialize.go:289
+#	0x16d2b92	github.com/aws/aws-sdk-go-v2/service/internal/s3shared.(*errorWrapper).HandleDeserialize+0x52				github.com/aws/aws-sdk-go-v2/service/internal/s3shared@v1.19.21/response_error_middleware.go:30
+#	0x168b4e4	github.com/aws/smithy-go/middleware.decoratedDeserializeHandler.HandleDeserialize+0x44					github.com/aws/smithy-go@v1.24.2/middleware/step_deserialize.go:289
+#	0x1695b32	github.com/aws/smithy-go/transport/http.(*closeResponseBody).HandleDeserialize+0x52					github.com/aws/smithy-go@v1.24.2/transport/http/middleware_close_response_body.go:60
+#	0x168b4e4	github.com/aws/smithy-go/middleware.decoratedDeserializeHandler.HandleDeserialize+0x44					github.com/aws/smithy-go@v1.24.2/middleware/step_deserialize.go:289
+#	0x16958f2	github.com/aws/smithy-go/transport/http.(*errorCloseResponseBodyMiddleware).HandleDeserialize+0x52			github.com/aws/smithy-go@v1.24.2/transport/http/middleware_close_response_body.go:29
+#	0x168b4e4	github.com/aws/smithy-go/middleware.decoratedDeserializeHandler.HandleDeserialize+0x44					github.com/aws/smithy-go@v1.24.2/middleware/step_deserialize.go:289
+#	0x16a3761	github.com/aws/aws-sdk-go-v2/aws/middleware.AddRawResponse.HandleDeserialize+0x61					github.com/aws/aws-sdk-go-v2@v1.41.5/aws/middleware/middleware.go:154
+#	0x1687616	github.com/aws/smithy-go/middleware.decoratedDeserializeHandler.HandleDeserialize+0xd6					github.com/aws/smithy-go@v1.24.2/middleware/step_deserialize.go:289
+#	0x16875ea	github.com/aws/smithy-go/middleware.(*DeserializeStep).HandleMiddleware+0xaa						github.com/aws/smithy-go@v1.24.2/middleware/step_deserialize.go:115
+#	0x168bc04	github.com/aws/smithy-go/middleware.decoratedHandler.Handle+0x44							github.com/aws/smithy-go@v1.24.2/middleware/middleware.go:57
+#	0x168b83c	github.com/aws/smithy-go/middleware.finalizeWrapHandler.HandleFinalize+0x3c						github.com/aws/smithy-go@v1.24.2/middleware/step_finalize.go:271
+#	0x17cb317	github.com/aws/aws-sdk-go-v2/service/s3.(*signRequestMiddleware).HandleFinalize+0x4f7					github.com/aws/aws-sdk-go-v2/service/s3@v1.97.3/auth.go:382
+#	0x168b784	github.com/aws/smithy-go/middleware.decoratedFinalizeHandler.HandleFinalize+0x44					github.com/aws/smithy-go@v1.24.2/middleware/step_finalize.go:287
+#	0x17c9364	github.com/aws/aws-sdk-go-v2/service/s3.(*setLegacyContextSigningOptionsMiddleware).HandleFinalize+0x5e4		github.com/aws/aws-sdk-go-v2/service/s3@v1.97.3/auth.go:58
+#	0x168b784	github.com/aws/smithy-go/middleware.decoratedFinalizeHandler.HandleFinalize+0x44					github.com/aws/smithy-go@v1.24.2/middleware/step_finalize.go:287
+#	0x16b7ed9	github.com/aws/aws-sdk-go-v2/aws/signer/v4.(*ContentSHA256Header).HandleFinalize+0x1b9					github.com/aws/aws-sdk-go-v2@v1.41.5/aws/signer/v4/middleware.go:242
+#	0x168b784	github.com/aws/smithy-go/middleware.decoratedFinalizeHandler.HandleFinalize+0x44					github.com/aws/smithy-go@v1.24.2/middleware/step_finalize.go:287
+#	0x16b73c7	github.com/aws/aws-sdk-go-v2/aws/signer/v4.(*UnsignedPayload).HandleFinalize+0xc7					github.com/aws/aws-sdk-go-v2@v1.41.5/aws/signer/v4/middleware.go:123
+#	0x168b784	github.com/aws/smithy-go/middleware.decoratedFinalizeHandler.HandleFinalize+0x44					github.com/aws/smithy-go@v1.24.2/middleware/step_finalize.go:287
+#	0x16cd048	github.com/aws/aws-sdk-go-v2/service/internal/checksum.(*AddInputChecksumTrailer).HandleFinalize+0x228			github.com/aws/aws-sdk-go-v2/service/internal/checksum@v1.9.13/middleware_compute_input_checksum.go:269
+#	0x168b784	github.com/aws/smithy-go/middleware.decoratedFinalizeHandler.HandleFinalize+0x44					github.com/aws/smithy-go@v1.24.2/middleware/step_finalize.go:287
+#	0x16cc9b7	github.com/aws/aws-sdk-go-v2/service/internal/checksum.(*ComputeInputPayloadChecksum).HandleFinalize+0xc17		github.com/aws/aws-sdk-go-v2/service/internal/checksum@v1.9.13/middleware_compute_input_checksum.go:146
+#	0x168b784	github.com/aws/smithy-go/middleware.decoratedFinalizeHandler.HandleFinalize+0x44					github.com/aws/smithy-go@v1.24.2/middleware/step_finalize.go:287
+#	0x1704e82	github.com/aws/aws-sdk-go-v2/service/s3.(*disableHTTPSMiddleware).HandleFinalize+0x142					github.com/aws/aws-sdk-go-v2/service/s3@v1.97.3/api_client.go:1304
+#	0x168b784	github.com/aws/smithy-go/middleware.decoratedFinalizeHandler.HandleFinalize+0x44					github.com/aws/smithy-go@v1.24.2/middleware/step_finalize.go:287
+#	0x18d2f61	github.com/aws/aws-sdk-go-v2/service/s3.(*resolveEndpointV2Middleware).HandleFinalize+0xf41				github.com/aws/aws-sdk-go-v2/service/s3@v1.97.3/endpoints.go:9824
+#	0x168b784	github.com/aws/smithy-go/middleware.decoratedFinalizeHandler.HandleFinalize+0x44					github.com/aws/smithy-go@v1.24.2/middleware/step_finalize.go:287
+#	0x17caa7b	github.com/aws/aws-sdk-go-v2/service/s3.(*getIdentityMiddleware).HandleFinalize+0x39b					github.com/aws/aws-sdk-go-v2/service/s3@v1.97.3/auth.go:324
+#	0x168b784	github.com/aws/smithy-go/middleware.decoratedFinalizeHandler.HandleFinalize+0x44					github.com/aws/smithy-go@v1.24.2/middleware/step_finalize.go:287
+#	0x17c9e6f	github.com/aws/aws-sdk-go-v2/service/s3.(*resolveAuthSchemeMiddleware).HandleFinalize+0x46f				github.com/aws/aws-sdk-go-v2/service/s3@v1.97.3/auth.go:214
+#	0x168b784	github.com/aws/smithy-go/middleware.decoratedFinalizeHandler.HandleFinalize+0x44					github.com/aws/smithy-go@v1.24.2/middleware/step_finalize.go:287
+#	0x16ab4e3	github.com/aws/aws-sdk-go-v2/aws/retry.MetricsHeader.HandleFinalize+0x4a3						github.com/aws/aws-sdk-go-v2@v1.41.5/aws/retry/middleware.go:375
+#	0x168b784	github.com/aws/smithy-go/middleware.decoratedFinalizeHandler.HandleFinalize+0x44					github.com/aws/smithy-go@v1.24.2/middleware/step_finalize.go:287
+#	0x1693e63	github.com/aws/smithy-go/transport/http.(*InterceptAttempt).HandleFinalize+0x143					github.com/aws/smithy-go@v1.24.2/transport/http/interceptor_middleware.go:316
+#	0x168b784	github.com/aws/smithy-go/middleware.decoratedFinalizeHandler.HandleFinalize+0x44					github.com/aws/smithy-go@v1.24.2/middleware/step_finalize.go:287
+#	0x16a9fda	github.com/aws/aws-sdk-go-v2/aws/retry.(*Attempt).handleAttempt+0x49a							github.com/aws/aws-sdk-go-v2@v1.41.5/aws/retry/middleware.go:224
+#	0x16a9025	github.com/aws/aws-sdk-go-v2/aws/retry.(*Attempt).HandleFinalize+0x545							github.com/aws/aws-sdk-go-v2@v1.41.5/aws/retry/middleware.go:129
+#	0x168b784	github.com/aws/smithy-go/middleware.decoratedFinalizeHandler.HandleFinalize+0x44					github.com/aws/smithy-go@v1.24.2/middleware/step_finalize.go:287
+#	0x1693009	github.com/aws/smithy-go/transport/http.(*InterceptBeforeRetryLoop).HandleFinalize+0x109				github.com/aws/smithy-go@v1.24.2/transport/http/interceptor_middleware.go:131
+#	0x168b784	github.com/aws/smithy-go/middleware.decoratedFinalizeHandler.HandleFinalize+0x44					github.com/aws/smithy-go@v1.24.2/middleware/step_finalize.go:287
+#	0x1702928	github.com/aws/aws-sdk-go-v2/service/s3.(*spanRetryLoop).HandleFinalize+0x128						github.com/aws/aws-sdk-go-v2/service/s3@v1.97.3/api_client.go:710
+#	0x168b784	github.com/aws/smithy-go/middleware.decoratedFinalizeHandler.HandleFinalize+0x44					github.com/aws/smithy-go@v1.24.2/middleware/step_finalize.go:287
+#	0x16c793d	github.com/aws/aws-sdk-go-v2/service/internal/accept-encoding.(*DisableGzip).HandleFinalize+0x15d			github.com/aws/aws-sdk-go-v2/service/internal/accept-encoding@v1.13.7/accept_encoding_gzip.go:67
+#	0x1688476	github.com/aws/smithy-go/middleware.decoratedFinalizeHandler.HandleFinalize+0xd6					github.com/aws/smithy-go@v1.24.2/middleware/step_finalize.go:287
+#	0x168844a	github.com/aws/smithy-go/middleware.(*FinalizeStep).HandleMiddleware+0xaa						github.com/aws/smithy-go@v1.24.2/middleware/step_finalize.go:114
+#	0x168bc04	github.com/aws/smithy-go/middleware.decoratedHandler.Handle+0x44							github.com/aws/smithy-go@v1.24.2/middleware/middleware.go:57
+#	0x168b43c	github.com/aws/smithy-go/middleware.buildWrapHandler.HandleBuild+0x3c							github.com/aws/smithy-go@v1.24.2/middleware/step_build.go:271
+#	0x16a3ad7	github.com/aws/aws-sdk-go-v2/aws/middleware.(*RecursionDetection).HandleBuild+0x257					github.com/aws/aws-sdk-go-v2@v1.41.5/aws/middleware/recursion_detection.go:46
+#	0x168b384	github.com/aws/smithy-go/middleware.decoratedBuildHandler.HandleBuild+0x44						github.com/aws/smithy-go@v1.24.2/middleware/step_build.go:287
+#	0x16d3199	github.com/aws/aws-sdk-go-v2/service/internal/s3shared.(*s3100Continue).HandleBuild+0x199				github.com/aws/aws-sdk-go-v2/service/internal/s3shared@v1.19.21/s3100continue.go:53
+#	0x168b384	github.com/aws/smithy-go/middleware.decoratedBuildHandler.HandleBuild+0x44						github.com/aws/smithy-go@v1.24.2/middleware/step_build.go:287
+#	0x16a4cac	github.com/aws/aws-sdk-go-v2/aws/middleware.(*RequestUserAgent).HandleBuild+0x8c					github.com/aws/aws-sdk-go-v2@v1.41.5/aws/middleware/user_agent.go:348
+#	0x168b384	github.com/aws/smithy-go/middleware.decoratedBuildHandler.HandleBuild+0x44						github.com/aws/smithy-go@v1.24.2/middleware/step_build.go:287
+#	0x17033c7	github.com/aws/aws-sdk-go-v2/service/s3.setCredentialSourceMiddleware.HandleBuild+0x147					github.com/aws/aws-sdk-go-v2/service/s3@v1.97.3/api_client.go:915
+#	0x168b384	github.com/aws/smithy-go/middleware.decoratedBuildHandler.HandleBuild+0x44						github.com/aws/smithy-go@v1.24.2/middleware/step_build.go:287
+#	0x16cb989	github.com/aws/aws-sdk-go-v2/service/internal/checksum.(*RequestChecksumMetricsTracking).HandleBuild+0x249		github.com/aws/aws-sdk-go-v2/service/internal/checksum@v1.9.13/middleware_checksum_metrics_tracking.go:57
+#	0x168b384	github.com/aws/smithy-go/middleware.decoratedBuildHandler.HandleBuild+0x44						github.com/aws/smithy-go@v1.24.2/middleware/step_build.go:287
+#	0x1695efb	github.com/aws/smithy-go/transport/http.(*ComputeContentLength).HandleBuild+0x13b					github.com/aws/smithy-go@v1.24.2/transport/http/middleware_content_length.go:38
+#	0x168b384	github.com/aws/smithy-go/middleware.decoratedBuildHandler.HandleBuild+0x44						github.com/aws/smithy-go@v1.24.2/middleware/step_build.go:287
+#	0x16a3064	github.com/aws/aws-sdk-go-v2/aws/middleware.ClientRequestID.HandleBuild+0x1e4						github.com/aws/aws-sdk-go-v2@v1.41.5/aws/middleware/middleware.go:42
+#	0x16868b6	github.com/aws/smithy-go/middleware.decoratedBuildHandler.HandleBuild+0xd6						github.com/aws/smithy-go@v1.24.2/middleware/step_build.go:287
+#	0x168688a	github.com/aws/smithy-go/middleware.(*BuildStep).HandleMiddleware+0xaa							github.com/aws/smithy-go@v1.24.2/middleware/step_build.go:114
+#	0x168bc04	github.com/aws/smithy-go/middleware.decoratedHandler.Handle+0x44							github.com/aws/smithy-go@v1.24.2/middleware/middleware.go:57
+#	0x168bb30	github.com/aws/smithy-go/middleware.serializeWrapHandler.HandleSerialize+0x50						github.com/aws/smithy-go@v1.24.2/middleware/step_serialize.go:278
+#	0x18d6014	github.com/aws/aws-sdk-go-v2/service/s3.(*isExpressUserAgent).HandleSerialize+0xf4					github.com/aws/aws-sdk-go-v2/service/s3@v1.97.3/express_user_agent.go:33
+#	0x168ba59	github.com/aws/smithy-go/middleware.decoratedSerializeHandler.HandleSerialize+0x59					github.com/aws/smithy-go@v1.24.2/middleware/step_serialize.go:294
+#	0x16e3af0	github.com/aws/aws-sdk-go-v2/service/s3/internal/customizations.(*removeBucketFromPathMiddleware).HandleSerialize+0x1f0	github.com/aws/aws-sdk-go-v2/service/s3@v1.97.3/internal/customizations/remove_bucket_middleware.go:26
+#	0x168ba59	github.com/aws/smithy-go/middleware.decoratedSerializeHandler.HandleSerialize+0x59					github.com/aws/smithy-go@v1.24.2/middleware/step_serialize.go:294
+#	0x16e5214	github.com/aws/aws-sdk-go-v2/service/s3/internal/customizations.(*updateEndpoint).HandleSerialize+0x514			github.com/aws/aws-sdk-go-v2/service/s3@v1.97.3/internal/customizations/update_endpoint.go:145
+#	0x168ba59	github.com/aws/smithy-go/middleware.decoratedSerializeHandler.HandleSerialize+0x59					github.com/aws/smithy-go@v1.24.2/middleware/step_serialize.go:294
+#	0x1945e72	github.com/aws/aws-sdk-go-v2/service/s3.(*awsRestxml_serializeOpPutObject).HandleSerialize+0xab2			github.com/aws/aws-sdk-go-v2/service/s3@v1.97.3/serializers.go:8170
+#	0x168ba59	github.com/aws/smithy-go/middleware.decoratedSerializeHandler.HandleSerialize+0x59					github.com/aws/smithy-go@v1.24.2/middleware/step_serialize.go:294
+#	0x18d6b25	github.com/aws/aws-sdk-go-v2/service/s3.(*serializeImmutableHostnameBucketMiddleware).HandleSerialize+0x3a5		github.com/aws/aws-sdk-go-v2/service/s3@v1.97.3/serialize_immutable_hostname_bucket.go:53
+#	0x168ba59	github.com/aws/smithy-go/middleware.decoratedSerializeHandler.HandleSerialize+0x59					github.com/aws/smithy-go@v1.24.2/middleware/step_serialize.go:294
+#	0x16e41e1	github.com/aws/aws-sdk-go-v2/service/s3/internal/customizations.(*s3ObjectLambdaEndpoint).HandleSerialize+0x661		github.com/aws/aws-sdk-go-v2/service/s3@v1.97.3/internal/customizations/s3_object_lambda.go:34
+#	0x168ba59	github.com/aws/smithy-go/middleware.decoratedSerializeHandler.HandleSerialize+0x59					github.com/aws/smithy-go@v1.24.2/middleware/step_serialize.go:294
+#	0x16e0e18	github.com/aws/aws-sdk-go-v2/service/s3/internal/customizations.(*processARNResource).HandleSerialize+0x1218		github.com/aws/aws-sdk-go-v2/service/s3@v1.97.3/internal/customizations/process_arn_resource.go:54
+#	0x168ba59	github.com/aws/smithy-go/middleware.decoratedSerializeHandler.HandleSerialize+0x59					github.com/aws/smithy-go@v1.24.2/middleware/step_serialize.go:294
+#	0x18a2fd4	github.com/aws/aws-sdk-go-v2/service/s3.(*ResolveEndpoint).HandleSerialize+0x754					github.com/aws/aws-sdk-go-v2/service/s3@v1.97.3/endpoints.go:89
+#	0x168ba59	github.com/aws/smithy-go/middleware.decoratedSerializeHandler.HandleSerialize+0x59					github.com/aws/smithy-go@v1.24.2/middleware/step_serialize.go:294
+#	0x1700874	github.com/aws/aws-sdk-go-v2/service/s3.(*setOperationInputMiddleware).HandleSerialize+0xb4				github.com/aws/aws-sdk-go-v2/service/s3@v1.97.3/api_client.go:372
+#	0x168ba59	github.com/aws/smithy-go/middleware.decoratedSerializeHandler.HandleSerialize+0x59					github.com/aws/smithy-go@v1.24.2/middleware/step_serialize.go:294
+#	0x17cb7fb	github.com/aws/aws-sdk-go-v2/service/s3.(*putBucketContextMiddleware).HandleSerialize+0xdb				github.com/aws/aws-sdk-go-v2/service/s3@v1.97.3/bucket_context.go:26
+#	0x1689f6e	github.com/aws/smithy-go/middleware.decoratedSerializeHandler.HandleSerialize+0x10e					github.com/aws/smithy-go@v1.24.2/middleware/step_serialize.go:294
+#	0x1689f30	github.com/aws/smithy-go/middleware.(*SerializeStep).HandleMiddleware+0xd0						github.com/aws/smithy-go@v1.24.2/middleware/step_serialize.go:121
+#	0x168bc04	github.com/aws/smithy-go/middleware.decoratedHandler.Handle+0x44							github.com/aws/smithy-go@v1.24.2/middleware/middleware.go:57
+#	0x168b99c	github.com/aws/smithy-go/middleware.initializeWrapHandler.HandleInitialize+0x3c						github.com/aws/smithy-go@v1.24.2/middleware/step_initialize.go:272
+#	0x19b6f45	github.com/aws/aws-sdk-go-v2/service/s3.(*validateOpPutObject).HandleInitialize+0xc5					github.com/aws/aws-sdk-go-v2/service/s3@v1.97.3/validators.go:1830
+#	0x168b8e4	github.com/aws/smithy-go/middleware.decoratedInitializeHandler.HandleInitialize+0x44					github.com/aws/smithy-go@v1.24.2/middleware/step_initialize.go:288
+#	0x1684eeb	github.com/aws/smithy-go/middleware.(*setLogger).HandleInitialize+0x8b							github.com/aws/smithy-go@v1.24.2/middleware/logging.go:45
+#	0x168b8e4	github.com/aws/smithy-go/middleware.decoratedInitializeHandler.HandleInitialize+0x44					github.com/aws/smithy-go@v1.24.2/middleware/step_initialize.go:288
+#	0x16d2141	github.com/aws/aws-sdk-go-v2/service/internal/s3shared.(*ARNLookup).HandleInitialize+0x261				github.com/aws/aws-sdk-go-v2/service/internal/s3shared@v1.19.21/arn_lookup.go:39
+#	0x168b8e4	github.com/aws/smithy-go/middleware.decoratedInitializeHandler.HandleInitialize+0x44					github.com/aws/smithy-go@v1.24.2/middleware/step_initialize.go:288
+#	0x17012dd	github.com/aws/aws-sdk-go-v2/service/s3.(*legacyEndpointContextSetter).HandleInitialize+0x9d				github.com/aws/aws-sdk-go-v2/service/s3@v1.97.3/api_client.go:435
+#	0x168b8e4	github.com/aws/smithy-go/middleware.decoratedInitializeHandler.HandleInitialize+0x44					github.com/aws/smithy-go@v1.24.2/middleware/step_initialize.go:288
+#	0x16a2de5	github.com/aws/aws-sdk-go-v2/aws/middleware.RegisterServiceMetadata.HandleInitialize+0x1c5				github.com/aws/aws-sdk-go-v2@v1.41.5/aws/middleware/metadata.go:41
+#	0x168b8e4	github.com/aws/smithy-go/middleware.decoratedInitializeHandler.HandleInitialize+0x44					github.com/aws/smithy-go@v1.24.2/middleware/step_initialize.go:288
+#	0x16ce50a	github.com/aws/aws-sdk-go-v2/service/internal/checksum.(*SetupInputContext).HandleInitialize+0xea			github.com/aws/aws-sdk-go-v2/service/internal/checksum@v1.9.13/middleware_setup_context.go:62
+#	0x16891d6	github.com/aws/smithy-go/middleware.decoratedInitializeHandler.HandleInitialize+0xd6					github.com/aws/smithy-go@v1.24.2/middleware/step_initialize.go:288
+#	0x16891aa	github.com/aws/smithy-go/middleware.(*InitializeStep).HandleMiddleware+0xaa						github.com/aws/smithy-go@v1.24.2/middleware/step_initialize.go:115
+#	0x168bc04	github.com/aws/smithy-go/middleware.decoratedHandler.Handle+0x44							github.com/aws/smithy-go@v1.24.2/middleware/middleware.go:57
+#	0x1685502	github.com/aws/smithy-go/middleware.(*Stack).HandleMiddleware+0x182							github.com/aws/smithy-go@v1.24.2/middleware/stack.go:109
+#	0x168bc04	github.com/aws/smithy-go/middleware.decoratedHandler.Handle+0x44							github.com/aws/smithy-go@v1.24.2/middleware/middleware.go:57
+#	0x16ffe8a	github.com/aws/aws-sdk-go-v2/service/s3.(*Client).invokeOperation+0xc2a							github.com/aws/aws-sdk-go-v2/service/s3@v1.97.3/api_client.go:322
+#	0x17a9e24	github.com/aws/aws-sdk-go-v2/service/s3.(*Client).PutObject+0x104							github.com/aws/aws-sdk-go-v2/service/s3@v1.97.3/api_op_PutObject.go:165
+#	0x1d98cbd	github.com/rclone/rclone/backend/s3.(*Object).uploadSinglepartPutObject.func2+0x5d					github.com/rclone/rclone/backend/s3/s3.go:4417
+#	0x7e70b1	github.com/rclone/rclone/fs.pacerInvoker+0x31										github.com/rclone/rclone/fs/pacer.go:86
+#	0x7d2051	github.com/rclone/rclone/lib/pacer.(*Pacer).call+0xd1									github.com/rclone/rclone/lib/pacer/pacer.go:228
+
+4 @ 0x481d0e 0x45e337 0x9c20ed 0x48a821
+#	0x9c20ec	github.com/rclone/rclone/fs/accounting.(*Account).averageLoop+0xec	github.com/rclone/rclone/fs/accounting/accounting.go:221
+
+1 @ 0x41ae49 0x4843c9 0x8133d3 0x48a821
+#	0x4843c8	os/signal.signal_recv+0x28	runtime/sigqueue.go:152
+#	0x8133d2	os/signal.loop+0x12		os/signal/signal_unix.go:23
+
+1 @ 0x4401d1 0x480add 0x838cd1 0x838ae5 0x83596b 0x850dca 0x85187a 0x79e709 0x7a0ae7 0x8bef8f 0x79e709 0x20f565d 0x79e709 0x20f583d 0x79e709 0x8c6c22 0x79e709 0x8bc7ee 0x7bf46e 0x79c805 0x48a821
+#	0x838cd0	runtime/pprof.writeRuntimeProfile+0xb0						runtime/pprof/pprof.go:788
+#	0x838ae4	runtime/pprof.writeGoroutine+0x44						runtime/pprof/pprof.go:747
+#	0x83596a	runtime/pprof.(*Profile).WriteTo+0x14a						runtime/pprof/pprof.go:371
+#	0x850dc9	net/http/pprof.handler.ServeHTTP+0x529						net/http/pprof/pprof.go:272
+#	0x851879	net/http/pprof.Index+0xd9							net/http/pprof/pprof.go:389
+#	0x79e708	net/http.HandlerFunc.ServeHTTP+0x28						net/http/server.go:2322
+#	0x7a0ae6	net/http.(*ServeMux).ServeHTTP+0x1c6						net/http/server.go:2861
+#	0x8bef8e	github.com/go-chi/chi/v5.(*Mux).routeHTTP+0x50e					github.com/go-chi/chi/v5@v5.2.5/mux.go:479
+#	0x79e708	net/http.HandlerFunc.ServeHTTP+0x28						net/http/server.go:2322
+#	0x20f565c	github.com/rclone/rclone/fs/rc/rcserver.newServer.SetHeader.func5.1+0x9c	github.com/go-chi/chi/v5@v5.2.5/middleware/content_type.go:13
+#	0x79e708	net/http.HandlerFunc.ServeHTTP+0x28						net/http/server.go:2322
+#	0x20f583c	github.com/rclone/rclone/fs/rc/rcserver.newServer.SetHeader.func4.1+0x9c	github.com/go-chi/chi/v5@v5.2.5/middleware/content_type.go:13
+#	0x79e708	net/http.HandlerFunc.ServeHTTP+0x28						net/http/server.go:2322
+#	0x8c6c21	github.com/rclone/rclone/lib/http.MiddlewareCORS.func2.1+0x421			github.com/rclone/rclone/lib/http/middleware.go:197
+#	0x79e708	net/http.HandlerFunc.ServeHTTP+0x28						net/http/server.go:2322
+#	0x8bc7ed	github.com/go-chi/chi/v5.(*Mux).ServeHTTP+0x2ed					github.com/go-chi/chi/v5@v5.2.5/mux.go:90
+#	0x7bf46d	net/http.serverHandler.ServeHTTP+0x8d						net/http/server.go:3340
+#	0x79c804	net/http.(*conn).serve+0x664							net/http/server.go:2109
+
+1 @ 0x481d0e 0x415373 0x414ed2 0x22bb991 0x22bae5c 0x210d6c7 0x210e025 0x2120a71 0x2120a66 0x24836af 0x44b37d 0x48a821
+#	0x22bb990	github.com/rclone/rclone/cmd/mountlib.(*MountPoint).Wait+0xf0		github.com/rclone/rclone/cmd/mountlib/mount.go:406
+#	0x22bae5b	github.com/rclone/rclone/cmd/mountlib.NewMountCommand.func1+0x2fb	github.com/rclone/rclone/cmd/mountlib/mount.go:310
+#	0x210d6c6	github.com/spf13/cobra.(*Command).execute+0xae6				github.com/spf13/cobra@v1.10.1/command.go:1019
+#	0x210e024	github.com/spf13/cobra.(*Command).ExecuteC+0x464			github.com/spf13/cobra@v1.10.1/command.go:1148
+#	0x2120a70	github.com/spf13/cobra.(*Command).Execute+0x30				github.com/spf13/cobra@v1.10.1/command.go:1071
+#	0x2120a65	github.com/rclone/rclone/cmd.Main+0x25					github.com/rclone/rclone/cmd/cmd.go:541
+#	0x24836ae	main.main+0xe								github.com/rclone/rclone/rclone.go:14
+#	0x44b37c	runtime.main+0x29c							runtime/proc.go:285
+
+1 @ 0x481d0e 0x415373 0x414ed2 0x813bc9 0x48a821
+#	0x813bc8	github.com/rclone/rclone/lib/atexit.Register.func1.1+0x28	github.com/rclone/rclone/lib/atexit/atexit.go:45
+
+1 @ 0x481d0e 0x415373 0x414ed2 0x9c5287 0x48a821
+#	0x9c5286	github.com/rclone/rclone/fs/accounting.(*tokenBucket).startSignalHandler.func1+0x26	github.com/rclone/rclone/fs/accounting/accounting_unix.go:24
+
+1 @ 0x481d0e 0x443bd7 0x480ee5 0x513ce7 0x51910c 0x5190fa 0x594029 0x5aefdb 0x5ade70 0x7a25ec 0x8c747a 0x48a821
+#	0x480ee4	internal/poll.runtime_pollWait+0x84			runtime/netpoll.go:351
+#	0x513ce6	internal/poll.(*pollDesc).wait+0x26			internal/poll/fd_poll_runtime.go:84
+#	0x51910b	internal/poll.(*pollDesc).waitRead+0x28b		internal/poll/fd_poll_runtime.go:89
+#	0x5190f9	internal/poll.(*FD).Accept+0x279			internal/poll/fd_unix.go:613
+#	0x594028	net.(*netFD).accept+0x28				net/fd_unix.go:161
+#	0x5aefda	net.(*TCPListener).accept+0x1a				net/tcpsock_posix.go:159
+#	0x5ade6f	net.(*TCPListener).Accept+0x2f				net/tcpsock.go:380
+#	0x7a25eb	net/http.(*Server).Serve+0x30b				net/http/server.go:3463
+#	0x8c7479	github.com/rclone/rclone/lib/http.instance.serve+0x99	github.com/rclone/rclone/lib/http/server.go:221
+
+1 @ 0x481d0e 0x45e337 0x9c8a65 0x48a821
+#	0x9c8a64	github.com/rclone/rclone/fs/accounting.(*StatsInfo).averageLoop+0x144	github.com/rclone/rclone/fs/accounting/stats.go:352
+
+1 @ 0x481d0e 0x45e337 0xab4bac 0x48a821
+#	0xab4bab	github.com/rclone/rclone/vfs/vfscache.(*Cache).cleaner+0x16b	github.com/rclone/rclone/vfs/vfscache/cache.go:854
+
+1 @ 0x481d0e 0x45e337 0xae48c5 0x48a821
+#	0xae48c4	github.com/rclone/rclone/vfs.(*VFS).signalHandler+0xc4	github.com/rclone/rclone/vfs/vfs.go:290
+
+1 @ 0x4aa6c5 0x4a84d8 0x229c18a 0x229c16f 0x22adf2f 0x22c5cd4 0x48a821
+#	0x4aa6c4	syscall.Syscall+0x24					syscall/syscall_linux.go:74
+#	0x4a84d7	syscall.read+0x37					syscall/zsyscall_linux_amd64.go:736
+#	0x229c189	syscall.Read+0xc9					syscall/syscall_unix.go:183
+#	0x229c16e	bazil.org/fuse.(*Conn).ReadRequest+0xae			bazil.org/fuse@v0.0.0-20230120002735-62a210ff1fd5/fuse.go:569
+#	0x22adf2e	bazil.org/fuse/fs.(*Server).Serve+0x3ce			bazil.org/fuse@v0.0.0-20230120002735-62a210ff1fd5/fs/serve.go:511
+#	0x22c5cd3	github.com/rclone/rclone/cmd/mount.mount.func2+0x33	github.com/rclone/rclone/cmd/mount/mount.go:97
+
+1 @ 0x4aa6c5 0x4a84d8 0x51500e 0x514ff6 0x514e91 0x592185 0x5a4ba5 0x796cb3 0x48a821
+#	0x4aa6c4	syscall.Syscall+0x24				syscall/syscall_linux.go:74
+#	0x4a84d7	syscall.read+0x37				syscall/zsyscall_linux_amd64.go:736
+#	0x51500d	syscall.Read+0x2ad				syscall/syscall_unix.go:183
+#	0x514ff5	internal/poll.ignoringEINTRIO+0x295		internal/poll/fd_unix.go:738
+#	0x514e90	internal/poll.(*FD).Read+0x130			internal/poll/fd_unix.go:161
+#	0x592184	net.(*netFD).Read+0x24				net/fd_posix.go:68
+#	0x5a4ba4	net.(*conn).Read+0x44				net/net.go:196
+#	0x796cb2	net/http.(*connReader).backgroundRead+0x32	net/http/server.go:702
+

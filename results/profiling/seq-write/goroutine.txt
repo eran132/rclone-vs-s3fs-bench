@@ -1,0 +1,79 @@
+goroutine profile: total 11
+1 @ 0x41ae49 0x4843c9 0x8133d3 0x48a821
+#	0x4843c8	os/signal.signal_recv+0x28	runtime/sigqueue.go:152
+#	0x8133d2	os/signal.loop+0x12		os/signal/signal_unix.go:23
+
+1 @ 0x4401d1 0x480add 0x838cd1 0x838ae5 0x83596b 0x850dca 0x85187a 0x79e709 0x7a0ae7 0x8bef8f 0x79e709 0x20f565d 0x79e709 0x20f583d 0x79e709 0x8c6c22 0x79e709 0x8bc7ee 0x7bf46e 0x79c805 0x48a821
+#	0x838cd0	runtime/pprof.writeRuntimeProfile+0xb0						runtime/pprof/pprof.go:788
+#	0x838ae4	runtime/pprof.writeGoroutine+0x44						runtime/pprof/pprof.go:747
+#	0x83596a	runtime/pprof.(*Profile).WriteTo+0x14a						runtime/pprof/pprof.go:371
+#	0x850dc9	net/http/pprof.handler.ServeHTTP+0x529						net/http/pprof/pprof.go:272
+#	0x851879	net/http/pprof.Index+0xd9							net/http/pprof/pprof.go:389
+#	0x79e708	net/http.HandlerFunc.ServeHTTP+0x28						net/http/server.go:2322
+#	0x7a0ae6	net/http.(*ServeMux).ServeHTTP+0x1c6						net/http/server.go:2861
+#	0x8bef8e	github.com/go-chi/chi/v5.(*Mux).routeHTTP+0x50e					github.com/go-chi/chi/v5@v5.2.5/mux.go:479
+#	0x79e708	net/http.HandlerFunc.ServeHTTP+0x28						net/http/server.go:2322
+#	0x20f565c	github.com/rclone/rclone/fs/rc/rcserver.newServer.SetHeader.func5.1+0x9c	github.com/go-chi/chi/v5@v5.2.5/middleware/content_type.go:13
+#	0x79e708	net/http.HandlerFunc.ServeHTTP+0x28						net/http/server.go:2322
+#	0x20f583c	github.com/rclone/rclone/fs/rc/rcserver.newServer.SetHeader.func4.1+0x9c	github.com/go-chi/chi/v5@v5.2.5/middleware/content_type.go:13
+#	0x79e708	net/http.HandlerFunc.ServeHTTP+0x28						net/http/server.go:2322
+#	0x8c6c21	github.com/rclone/rclone/lib/http.MiddlewareCORS.func2.1+0x421			github.com/rclone/rclone/lib/http/middleware.go:197
+#	0x79e708	net/http.HandlerFunc.ServeHTTP+0x28						net/http/server.go:2322
+#	0x8bc7ed	github.com/go-chi/chi/v5.(*Mux).ServeHTTP+0x2ed					github.com/go-chi/chi/v5@v5.2.5/mux.go:90
+#	0x7bf46d	net/http.serverHandler.ServeHTTP+0x8d						net/http/server.go:3340
+#	0x79c804	net/http.(*conn).serve+0x664							net/http/server.go:2109
+
+1 @ 0x481d0e 0x415373 0x414ed2 0x22bb991 0x22bae5c 0x210d6c7 0x210e025 0x2120a71 0x2120a66 0x24836af 0x44b37d 0x48a821
+#	0x22bb990	github.com/rclone/rclone/cmd/mountlib.(*MountPoint).Wait+0xf0		github.com/rclone/rclone/cmd/mountlib/mount.go:406
+#	0x22bae5b	github.com/rclone/rclone/cmd/mountlib.NewMountCommand.func1+0x2fb	github.com/rclone/rclone/cmd/mountlib/mount.go:310
+#	0x210d6c6	github.com/spf13/cobra.(*Command).execute+0xae6				github.com/spf13/cobra@v1.10.1/command.go:1019
+#	0x210e024	github.com/spf13/cobra.(*Command).ExecuteC+0x464			github.com/spf13/cobra@v1.10.1/command.go:1148
+#	0x2120a70	github.com/spf13/cobra.(*Command).Execute+0x30				github.com/spf13/cobra@v1.10.1/command.go:1071
+#	0x2120a65	github.com/rclone/rclone/cmd.Main+0x25					github.com/rclone/rclone/cmd/cmd.go:541
+#	0x24836ae	main.main+0xe								github.com/rclone/rclone/rclone.go:14
+#	0x44b37c	runtime.main+0x29c							runtime/proc.go:285
+
+1 @ 0x481d0e 0x415373 0x414ed2 0x813bc9 0x48a821
+#	0x813bc8	github.com/rclone/rclone/lib/atexit.Register.func1.1+0x28	github.com/rclone/rclone/lib/atexit/atexit.go:45
+
+1 @ 0x481d0e 0x415373 0x414ed2 0x9c5287 0x48a821
+#	0x9c5286	github.com/rclone/rclone/fs/accounting.(*tokenBucket).startSignalHandler.func1+0x26	github.com/rclone/rclone/fs/accounting/accounting_unix.go:24
+
+1 @ 0x481d0e 0x443bd7 0x480ee5 0x513ce7 0x51910c 0x5190fa 0x594029 0x5aefdb 0x5ade70 0x7a25ec 0x8c747a 0x48a821
+#	0x480ee4	internal/poll.runtime_pollWait+0x84			runtime/netpoll.go:351
+#	0x513ce6	internal/poll.(*pollDesc).wait+0x26			internal/poll/fd_poll_runtime.go:84
+#	0x51910b	internal/poll.(*pollDesc).waitRead+0x28b		internal/poll/fd_poll_runtime.go:89
+#	0x5190f9	internal/poll.(*FD).Accept+0x279			internal/poll/fd_unix.go:613
+#	0x594028	net.(*netFD).accept+0x28				net/fd_unix.go:161
+#	0x5aefda	net.(*TCPListener).accept+0x1a				net/tcpsock_posix.go:159
+#	0x5ade6f	net.(*TCPListener).Accept+0x2f				net/tcpsock.go:380
+#	0x7a25eb	net/http.(*Server).Serve+0x30b				net/http/server.go:3463
+#	0x8c7479	github.com/rclone/rclone/lib/http.instance.serve+0x99	github.com/rclone/rclone/lib/http/server.go:221
+
+1 @ 0x481d0e 0x45e337 0x9c8a65 0x48a821
+#	0x9c8a64	github.com/rclone/rclone/fs/accounting.(*StatsInfo).averageLoop+0x144	github.com/rclone/rclone/fs/accounting/stats.go:352
+
+1 @ 0x481d0e 0x45e337 0xab4bac 0x48a821
+#	0xab4bab	github.com/rclone/rclone/vfs/vfscache.(*Cache).cleaner+0x16b	github.com/rclone/rclone/vfs/vfscache/cache.go:854
+
+1 @ 0x481d0e 0x45e337 0xae48c5 0x48a821
+#	0xae48c4	github.com/rclone/rclone/vfs.(*VFS).signalHandler+0xc4	github.com/rclone/rclone/vfs/vfs.go:290
+
+1 @ 0x4aa6c5 0x4a84d8 0x229c18a 0x229c16f 0x22adf2f 0x22c5cd4 0x48a821
+#	0x4aa6c4	syscall.Syscall+0x24					syscall/syscall_linux.go:74
+#	0x4a84d7	syscall.read+0x37					syscall/zsyscall_linux_amd64.go:736
+#	0x229c189	syscall.Read+0xc9					syscall/syscall_unix.go:183
+#	0x229c16e	bazil.org/fuse.(*Conn).ReadRequest+0xae			bazil.org/fuse@v0.0.0-20230120002735-62a210ff1fd5/fuse.go:569
+#	0x22adf2e	bazil.org/fuse/fs.(*Server).Serve+0x3ce			bazil.org/fuse@v0.0.0-20230120002735-62a210ff1fd5/fs/serve.go:511
+#	0x22c5cd3	github.com/rclone/rclone/cmd/mount.mount.func2+0x33	github.com/rclone/rclone/cmd/mount/mount.go:97
+
+1 @ 0x4aa6c5 0x4a84d8 0x51500e 0x514ff6 0x514e91 0x592185 0x5a4ba5 0x796cb3 0x48a821
+#	0x4aa6c4	syscall.Syscall+0x24				syscall/syscall_linux.go:74
+#	0x4a84d7	syscall.read+0x37				syscall/zsyscall_linux_amd64.go:736
+#	0x51500d	syscall.Read+0x2ad				syscall/syscall_unix.go:183
+#	0x514ff5	internal/poll.ignoringEINTRIO+0x295		internal/poll/fd_unix.go:738
+#	0x514e90	internal/poll.(*FD).Read+0x130			internal/poll/fd_unix.go:161
+#	0x592184	net.(*netFD).Read+0x24				net/fd_posix.go:68
+#	0x5a4ba4	net.(*conn).Read+0x44				net/net.go:196
+#	0x796cb2	net/http.(*connReader).backgroundRead+0x32	net/http/server.go:702
+

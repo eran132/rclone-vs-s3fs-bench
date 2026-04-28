@@ -1,0 +1,37 @@
+File: rclone
+Build ID: af1e41c07d7058d38c0a0f52143210b49eada9ad
+Type: inuse_space
+Time: Apr 26, 2026 at 5:01am (UTC)
+Showing nodes accounting for 4276.94kB, 40.61% of 10532.85kB total
+Showing top 30 nodes out of 82
+      flat  flat%   sum%        cum   cum%
+         0     0%     0%  5712.31kB 54.23%  runtime.main
+         0     0%     0%  4674.88kB 44.38%  runtime.doInit (inline)
+         0     0%     0%  4674.88kB 44.38%  runtime.doInit1
+    1539kB 14.61% 14.61%  2051.56kB 19.48%  runtime.allocm
+         0     0% 14.61%  2051.56kB 19.48%  runtime.newm
+         0     0% 14.61%  2051.56kB 19.48%  runtime.resetspinning
+         0     0% 14.61%  2051.56kB 19.48%  runtime.schedule
+         0     0% 14.61%  2051.56kB 19.48%  runtime.startm
+         0     0% 14.61%  2051.56kB 19.48%  runtime.wakep
+         0     0% 14.61%  1166.01kB 11.07%  bazil.org/fuse.(*Conn).ReadRequest
+ 1166.01kB 11.07% 25.68%  1166.01kB 11.07%  bazil.org/fuse.allocMessage
+         0     0% 25.68%  1166.01kB 11.07%  bazil.org/fuse.getMessage (inline)
+         0     0% 25.68%  1166.01kB 11.07%  bazil.org/fuse/fs.(*Server).Serve
+         0     0% 25.68%  1166.01kB 11.07%  github.com/rclone/rclone/cmd/mount.mount.func2
+         0     0% 25.68%  1166.01kB 11.07%  sync.(*Pool).Get
+ 1059.67kB 10.06% 35.74%  1059.67kB 10.06%  github.com/colinmarc/hdfs/v2/internal/protocol/hadoop_hdfs.init
+         0     0% 35.74%  1037.44kB  9.85%  github.com/rclone/rclone/cmd.Main
+         0     0% 35.74%  1037.44kB  9.85%  main.main
+         0     0% 35.74%     1026kB  9.74%  runtime.mcall
+         0     0% 35.74%     1026kB  9.74%  runtime.park_m
+         0     0% 35.74%  1025.56kB  9.74%  runtime.mstart
+         0     0% 35.74%  1025.56kB  9.74%  runtime.mstart0
+         0     0% 35.74%  1025.56kB  9.74%  runtime.mstart1
+  512.25kB  4.86% 40.61%  1024.30kB  9.72%  runtime.gcBgMarkWorker
+         0     0% 40.61%   578.66kB  5.49%  github.com/go-chi/chi/v5.(*Mux).ServeHTTP
+         0     0% 40.61%   578.66kB  5.49%  github.com/go-chi/chi/v5.(*Mux).routeHTTP
+         0     0% 40.61%   578.66kB  5.49%  github.com/rclone/rclone/fs/rc/rcserver.newServer.SetHeader.func4.1
+         0     0% 40.61%   578.66kB  5.49%  github.com/rclone/rclone/fs/rc/rcserver.newServer.SetHeader.func5.1
+         0     0% 40.61%   578.66kB  5.49%  github.com/rclone/rclone/lib/http.MiddlewareCORS.func2.1
+         0     0% 40.61%   578.66kB  5.49%  net/http.(*ServeMux).ServeHTTP

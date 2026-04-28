@@ -1,0 +1,23 @@
+tee: benchmark-lab/results/phase1/disable-checksum-rclone-copy.log: No such file or directory
+[stage] generating 4 GiB random source...
+=========== REP 1 ===========
+
+--- checksum-on  rep1 ---
+wall=83.38 user=56.61 sys=36.18 maxrss=73312
+
+--- checksum-off rep1 ---
+wall=72.90 user=41.70 sys=25.25 maxrss=75572
+=========== REP 2 ===========
+
+--- checksum-on  rep2 ---
+wall=83.83 user=55.36 sys=38.12 maxrss=73592
+
+--- checksum-off rep2 ---
+wall=57.62 user=44.16 sys=26.11 maxrss=73380
+=========== REP 3 ===========
+
+--- checksum-on  rep3 ---
+wall=54.53 user=58.26 sys=32.18 maxrss=72620
+
+--- checksum-off rep3 ---
+wall=82.84 user=38.81 sys=24.84 maxrss=74124

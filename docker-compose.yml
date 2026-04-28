@@ -1,0 +1,93 @@
+services:
+  minio:
+    image: minio/minio:latest
+    container_name: bench-minio
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio-data:/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    networks:
+      - bench
+
+  ceph:
+    image: quay.io/ceph/demo:latest-squid
+    container_name: bench-ceph
+    profiles: ["ceph"]
+    environment:
+      MON_IP: 127.0.0.1
+      CEPH_PUBLIC_NETWORK: 0.0.0.0/0
+      CEPH_DEMO_UID: lab
+      CEPH_DEMO_ACCESS_KEY: cephlab
+      CEPH_DEMO_SECRET_KEY: cephlabsecret
+      CEPH_DEMO_BUCKET: bench
+      RGW_FRONTEND_PORT: 8080
+      RGW_NAME: bench-ceph
+      DEMO_DAEMONS: "mon,mgr,osd,rgw"
+    ports:
+      - "8080:8080"
+    volumes:
+      - ceph-data:/var/lib/ceph
+      - ceph-etc:/etc/ceph
+    healthcheck:
+      # RGW returns S3-XML 404 on / (treats path as bucket name "localhost"),
+      # so any HTTP response with the Ceph Server header proves the daemon is up.
+      test: ["CMD-SHELL", "curl -s -o /dev/null -w '%{http_code}' http://localhost:8080/ | grep -qE '^(2|3|4)'"]
+      interval: 5s
+      timeout: 3s
+      retries: 60
+      start_period: 90s
+    networks:
+      - bench
+    # Ceph demo runs OSD + RGW + MON in one container; needs SYS_ADMIN-ish caps
+    cap_add:
+      - SYS_ADMIN
+    # OSD demo uses loop devices; privileged keeps the demo image happy
+    privileged: true
+
+  bench:
+    build:
+      context: .
+      dockerfile: Dockerfile.bench
+    container_name: bench-runner
+    depends_on:
+      minio:
+        condition: service_healthy
+    privileged: true
+    cap_add:
+      - SYS_ADMIN
+    devices:
+      - /dev/fuse
+    security_opt:
+      - apparmor=unconfined
+    environment:
+      S3_ENDPOINT: http://minio:9000
+      S3_ACCESS_KEY: minioadmin
+      S3_SECRET_KEY: minioadmin
+      S3_BUCKET: bench
+    volumes:
+      - ./configs:/lab/configs:ro
+      - ./scripts:/lab/scripts:ro
+      - ./results:/lab/results
+    working_dir: /lab
+    command: ["sleep", "infinity"]
+    networks:
+      - bench
+
+networks:
+  bench:
+    driver: bridge
+
+volumes:
+  minio-data:
+  ceph-data:
+  ceph-etc:

@@ -1,0 +1,23 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+*.swp
+*~
+.vscode/
+.idea/
+
+# Local docker volumes / artifacts
+**/*-mount-*.log
+**/*.pcap
+**/run.log
+**/full-run.log
+**/compare-run.log
+**/ceph-only.log
+
+# Python
+__pycache__/
+*.pyc
+
+# Generated charts that duplicate per-backend ones (legacy single-backend)
+results/charts/throughput.png
+results/charts/latency.png

@@ -1,0 +1,1 @@
+tcpdump captured 14 packets to/from MinIO
