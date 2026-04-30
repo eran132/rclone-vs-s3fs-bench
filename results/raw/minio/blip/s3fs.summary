@@ -1,0 +1,13 @@
+tool=s3fs
+backend=minio
+size_MB=2048
+blip_window_s=30
+exit_code=0
+total_wall_s=23
+log_tail:
+2026/04/29 13:44:49 INFO  : blip-src.bin: Multi-thread Copied (new)
+2026/04/29 13:44:49 INFO  : 
+Transferred:   	        2 GiB / 2 GiB, 100%, 92.115 MiB/s, ETA 0s
+Transferred:            1 / 1, 100%
+Elapsed time:        22.9s
+

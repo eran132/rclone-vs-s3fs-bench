@@ -1,0 +1,20 @@
+[global]
+ioengine=psync
+direct=0
+group_reporting=1
+time_based=1
+runtime=60
+ramp_time=5
+
+# Realistic AD-user-ish mix: 70% read, 30% write, 64k blocks. Each fio "job"
+# is one virtual user with its own file. Sweep numjobs externally to vary
+# the concurrent-user count.
+[concurrent-mixed]
+rw=randrw
+rwmixread=70
+bs=64k
+size=128m
+numjobs=${NUMJOBS}
+nrfiles=1
+filename_format=conc.$jobnum.bin
+directory=${MNT}

@@ -6,7 +6,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         ca-certificates curl unzip jq fuse3 s3fs fio time tar gzip xz-utils \
         python3 python3-pip python3-matplotlib \
         bash coreutils procps \
-        strace tcpdump linux-tools-generic graphviz \
+        strace tcpdump linux-tools-generic graphviz iproute2 iputils-ping \
         golang-go git \
     && rm -rf /var/lib/apt/lists/*
 

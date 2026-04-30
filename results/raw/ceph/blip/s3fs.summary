@@ -1,0 +1,17 @@
+tool=s3fs
+backend=ceph
+size_MB=2048
+blip_window_s=30
+exit_code=0
+total_wall_s=144
+log_tail:
+Elapsed time:       1m0.0s
+Transferring:
+ *                                  blip-src.bin: 43% /2Gi, 30.540Mi/s, 37s
+
+2026/04/29 14:11:25 INFO  : blip-src.bin: Multi-thread Copied (new)
+2026/04/29 14:11:25 INFO  : 
+Transferred:   	        2 GiB / 2 GiB, 100%, 34.790 MiB/s, ETA 0s
+Transferred:            1 / 1, 100%
+Elapsed time:      1m31.5s
+

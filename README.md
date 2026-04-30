@@ -10,13 +10,20 @@ you can verify the math.
 
 ## TL;DR
 
-In this lab, on this hardware, with default-fair settings, **rclone outperforms
-s3fs-fuse on every measured workload, on both backends.** Ratios range from
-**1.07× (Ceph seq-read, near-tie)** to **38× (MinIO rand-rw, structural)**.
+In this lab, on this hardware, with default-fair settings:
+
+- **Single-process throughput** — **rclone wins everything**, ratios 1.07× to 38×.
+- **5–10 concurrent users on the same mount** — **s3fs-fuse wins**, sometimes by 2–3×.
+- **15–20+ concurrent users on the same mount** — **rclone wins**, s3fs-fuse collapses.
+- **Recovery from a backend network blip** — **rclone wins** (~56% faster wall).
+- **Cross-mount cache coherency (app writes → other mount reads)** — **s3fs-fuse wins decisively**: 40–150 ms visibility vs rclone timing out at 120 s on every probe.
+
+There is **no clean winner.** The right tool depends on your concurrency
+profile and whether you can tolerate stale-listing windows.
 
 Read [Caveats](#caveats) before quoting any number.
 
-## Headline (default-fair, n = 1)
+## Headline — single-process (Round 1, default-fair, n = 1)
 
 | workload | MinIO rclone | MinIO s3fs | rclone × | Ceph rclone | Ceph s3fs | rclone × |
 |---|---:|---:|---:|---:|---:|---:|
@@ -26,9 +33,31 @@ Read [Caveats](#caveats) before quoting any number.
 | 10000 × 16 KiB writes | 1.82 MB/s | 0.16 | 11× | 1.31 MB/s | 0.11 | 12× |
 | tar-extract 10000 files | 48 s | 11 m 12 s | 14× | 51 s | 29 m 06 s | **34×** |
 
+## Headline — concurrent mount (Round 2, 70/30 R/W mix, 64K blocks)
+
+Aggregate throughput (MB/s) with **N virtual users** hitting the same mount.
+
+| backend | tool | N=1 | N=5 | N=10 | N=20 |
+|---|---|---:|---:|---:|---:|
+| minio | rclone | 148 | 244 | 585 | **719** |
+| minio | s3fs | 195 | **686** | 435 | 150 |
+| ceph | rclone | 154 | 465 | 594 | **475** |
+| ceph | s3fs | 239 | 622 | **686** | 209 |
+
+**Crossover band: N ≈ 10 (MinIO), N ≈ 15 (Ceph).** Below that, s3fs-fuse
+wins this mixed workload. Above that, s3fs collapses and rclone scales.
+This is reproducible across two backends and contradicts the
+"rclone is always faster" reading of Round 1.
+
+## Headline — production-relevant (Round 2)
+
+- **Network blip** (30 s 100% packet loss to backend, mid-2-GiB-upload): on Ceph (where the blip actually exercised the test), **rclone resumed in 92 s vs s3fs in 144 s**.
+- **Cross-mount coherency** (write via mount A, read via mount B): **s3fs sees the new value in 40–150 ms; rclone never saw it within the 120 s budget on any probe.** Default `--dir-cache-time = 5 m` is the cause; tunable but not free.
+
 Per-backend reports: [`results/REPORT-minio.md`](results/REPORT-minio.md) ·
-[`results/REPORT-ceph.md`](results/REPORT-ceph.md)
-· Combined: [`results/REPORT-COMPARISON.md`](results/REPORT-COMPARISON.md)
+[`results/REPORT-ceph.md`](results/REPORT-ceph.md) ·
+[`results/REPORT-COMPARISON.md`](results/REPORT-COMPARISON.md) ·
+[`results/REPORT-PRODUCTION.md`](results/REPORT-PRODUCTION.md)
 
 Bottleneck analysis (CPU pprof + strace + tcpdump):
 [`results/profiling/bottleneck-diagnosis.md`](results/profiling/bottleneck-diagnosis.md)
