@@ -1,13 +1,17 @@
 tool=rclone
 backend=minio
-size_MB=2048
+size_MB=8192
 blip_window_s=30
 exit_code=0
-total_wall_s=23
+total_wall_s=183
 log_tail:
-2026/04/29 13:44:49 INFO  : blip-src.bin: Multi-thread Copied (new)
-2026/04/29 13:44:49 INFO  : 
-Transferred:   	        2 GiB / 2 GiB, 100%, 92.115 MiB/s, ETA 0s
+Elapsed time:      2m59.9s
+Transferring:
+ *                             blip-src-8192.bin: 99% /8Gi, 51.976Mi/s, 1s
+
+2026/05/19 21:01:10 INFO  : blip-src-8192.bin: Multi-thread Copied (new)
+2026/05/19 21:01:10 INFO  : 
+Transferred:   	        8 GiB / 8 GiB, 100%, 52.254 MiB/s, ETA 0s
 Transferred:            1 / 1, 100%
-Elapsed time:        22.9s
+Elapsed time:       3m1.7s
 

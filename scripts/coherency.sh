@@ -37,27 +37,33 @@ unmount_all() {
     pkill -x rclone 2>/dev/null || true
     pkill -x s3fs 2>/dev/null || true
     sleep 1
-    for m in /mnt/rclone-A /mnt/rclone-B /mnt/s3fs-A /mnt/s3fs-B \
+    for m in /mnt/rclone-A /mnt/rclone-B \
+             /mnt/rclone-tuned-A /mnt/rclone-tuned-B \
+             /mnt/s3fs-A /mnt/s3fs-B \
              /mnt/rclone /mnt/s3fs; do
         fusermount3 -u "$m" 2>/dev/null || umount -l "$m" 2>/dev/null || true
         rm -rf "$m" 2>/dev/null || true
     done
 }
 
+# mount_rclone_pair <prefix> [extra rclone flags...]
+#   prefix=rclone        -> default cache TTLs (5m dir-cache)
+#   prefix=rclone-tuned  -> --dir-cache-time=1s --poll-interval=1s (the knob)
 mount_rclone_pair() {
-    mkdir -p /mnt/rclone-A /mnt/rclone-B
+    local prefix="$1"; shift
+    mkdir -p "/mnt/${prefix}-A" "/mnt/${prefix}-B"
     for letter in A B; do
-        rclone mount "${RCLONE_REMOTE}:${S3_BUCKET}" "/mnt/rclone-${letter}" \
+        rclone mount "${RCLONE_REMOTE}:${S3_BUCKET}" "/mnt/${prefix}-${letter}" \
             --allow-other --allow-non-empty \
-            --vfs-cache-mode writes \
-            --log-file "${RESULTS}/rclone-mount-${letter}.log" --log-level INFO &
+            --vfs-cache-mode writes "$@" \
+            --log-file "${RESULTS}/${prefix}-mount-${letter}.log" --log-level INFO &
         disown $!
     done
     for i in $(seq 1 60); do
-        mountpoint -q /mnt/rclone-A && mountpoint -q /mnt/rclone-B && return
+        mountpoint -q "/mnt/${prefix}-A" && mountpoint -q "/mnt/${prefix}-B" && return
         sleep 0.5
     done
-    echo "rclone-A/B did not come up"; exit 3
+    echo "${prefix}-A/B did not come up"; exit 3
 }
 
 mount_s3fs_pair() {
@@ -118,14 +124,21 @@ main() {
     echo "tool,phase,elapsed_s" >> "${RESULTS}/coherency.csv"
 
     echo
-    echo "============== rclone =============="
+    echo "============== rclone (default --dir-cache-time=5m) =============="
     unmount_all
-    mount_rclone_pair
+    mount_rclone_pair rclone
     probe rclone publish "v1-$(date +%s)"
     probe rclone update  "v2-$(date +%s)"
 
     echo
-    echo "============== s3fs =============="
+    echo "============== rclone-tuned (--dir-cache-time=1s --poll-interval=1s) =============="
+    unmount_all
+    mount_rclone_pair rclone-tuned --dir-cache-time 1s --poll-interval 1s
+    probe rclone-tuned publish "v1-$(date +%s)"
+    probe rclone-tuned update  "v2-$(date +%s)"
+
+    echo
+    echo "============== s3fs (default) =============="
     unmount_all
     mount_s3fs_pair
     probe s3fs publish "v1-$(date +%s)"

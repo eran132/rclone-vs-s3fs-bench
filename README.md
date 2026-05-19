@@ -12,16 +12,16 @@ you can verify the math.
 
 In this lab, on this hardware, with default-fair settings:
 
-- **Single-process throughput** — **rclone wins everything**, ratios 1.07× to 38×.
-- **5–10 concurrent users on the same mount** — **s3fs-fuse wins**, sometimes by 2–3×.
-- **15–20+ concurrent users on the same mount** — **rclone wins**, s3fs-fuse collapses.
-- **Recovery from a backend network blip** — **rclone wins** (~56% faster wall).
-- **Cross-mount cache coherency (app writes → other mount reads)** — **s3fs-fuse wins decisively**: 40–150 ms visibility vs rclone timing out at 120 s on every probe.
+- **Single-process throughput (Round 1)** — **rclone wins everything**, ratios 1.07× to 38×. Reproduces across two backends.
+- **Concurrent same-mount, 70/30 R/W mix (Round 2)** — **s3fs-fuse is competitive or faster up to N ≈ 10**, then **collapses at N = 20** on both backends while rclone keeps scaling. The crossover shape reproduced ×2 backends; n = 1 per cell.
+- **Recovery from a 30 s backend blackhole, 8 GiB upload (Round 2)** — on MinIO rclone 183 s vs s3fs 226 s (rclone 19 % faster); on Ceph numbers moved 2–3× between two runs so **don't trust the multiplier yet**.
+- **Cross-mount cache coherency** — **inconclusive in this lab**. A first run reported rclone-default timing out >120 s (presented dramatically in an earlier commit); a clean rerun showed 0.03 s. The original finding was an artifact of accumulated test state, **retracted**, and the test needs n ≥ 3 plus genuine multi-host separation before it can say anything.
 
-There is **no clean winner.** The right tool depends on your concurrency
-profile and whether you can tolerate stale-listing windows.
+**This is a single-machine lab with n = 1 per cell**, so the medium-sized
+numbers are not defensible on their own. The cross-backend reproductions
+are the only findings I'd quote without caveat.
 
-Read [Caveats](#caveats) before quoting any number.
+Read [Caveats](#caveats) and [`results/REPORT-PRODUCTION.md`](results/REPORT-PRODUCTION.md#-retraction-2026-05-20) before quoting any number.
 
 ## Headline — single-process (Round 1, default-fair, n = 1)
 
@@ -49,10 +49,10 @@ wins this mixed workload. Above that, s3fs collapses and rclone scales.
 This is reproducible across two backends and contradicts the
 "rclone is always faster" reading of Round 1.
 
-## Headline — production-relevant (Round 2)
+## Headline — production-relevant (Round 2, with corrections)
 
-- **Network blip** (30 s 100% packet loss to backend, mid-2-GiB-upload): on Ceph (where the blip actually exercised the test), **rclone resumed in 92 s vs s3fs in 144 s**.
-- **Cross-mount coherency** (write via mount A, read via mount B): **s3fs sees the new value in 40–150 ms; rclone never saw it within the 120 s budget on any probe.** Default `--dir-cache-time = 5 m` is the cause; tunable but not free.
+- **Network blip** (30 s 100 % packet loss to backend, mid-upload): on MinIO with 8 GiB the test finally exercised the path — **rclone 183 s vs s3fs 226 s**, rclone 19 % faster. The Ceph blip numbers moved 2-3× between two runs so the size of any advantage isn't trustworthy yet.
+- **Cross-mount coherency**: **retracted as inconclusive.** First run showed rclone-default at 120 s timeout, rerun at 0.03 s. Original CSV preserved as `coherency-run1.csv` next to the current data so the contradiction is visible. The test needs genuine multi-host separation + n ≥ 3 before any claim is publishable.
 
 Per-backend reports: [`results/REPORT-minio.md`](results/REPORT-minio.md) ·
 [`results/REPORT-ceph.md`](results/REPORT-ceph.md) ·

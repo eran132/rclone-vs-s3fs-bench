@@ -1,5 +1,7 @@
 tool,phase,elapsed_s
-rclone,publish,timeout
-rclone,update,timeout
-s3fs,publish,0.04
-s3fs,update,0.05
+rclone,publish,0.03
+rclone,update,0.01
+rclone-tuned,publish,0.02
+rclone-tuned,update,0.01
+s3fs,publish,0.05
+s3fs,update,0.06

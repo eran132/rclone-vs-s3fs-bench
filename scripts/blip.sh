@@ -23,10 +23,19 @@ case "$BACKEND" in
 esac
 
 IFACE=eth0
-SRC=/tmp/blip-src.bin
-SIZE_MB=2048
 
-echo "[blip] preparing 2 GiB local source"
+# MinIO-local absorbs a 2 GiB upload in a few seconds, so the original
+# 5 s pre-blip delay meant the transfer finished before the blackhole ever
+# applied (a no-op test). Use a backend-sized source big enough that the
+# upload is provably still in flight when the blip hits, and a short delay.
+case "$BACKEND" in
+    minio) SIZE_MB="${SIZE_MB:-8192}"  ;;   # MinIO is fast: need a big file
+    ceph)  SIZE_MB="${SIZE_MB:-2048}"  ;;   # Ceph is slow enough at 2 GiB
+esac
+PRE_BLIP_DELAY="${PRE_BLIP_DELAY:-2}"
+SRC=/tmp/blip-src-${SIZE_MB}.bin
+
+echo "[blip] preparing ${SIZE_MB} MiB local source (pre-blip delay ${PRE_BLIP_DELAY}s)"
 [[ -s "$SRC" ]] && [[ "$(stat -c%s "$SRC")" == "$((SIZE_MB * 1024 * 1024))" ]] \
     || dd if=/dev/urandom of="$SRC" bs=1M count="$SIZE_MB" status=none
 
@@ -70,7 +79,7 @@ case "$TOOL" in
 esac
 
 # Schedule the blip
-( sleep 5; apply_block; sleep 30; clear_block ) &
+( sleep "$PRE_BLIP_DELAY"; apply_block; sleep 30; clear_block ) &
 BLIP=$!
 
 # Wait for the worker to finish (success or fail)

@@ -1,0 +1,5 @@
+tool,phase,elapsed_s
+rclone,publish,timeout
+rclone,update,timeout
+s3fs,publish,0.14
+s3fs,update,0.15

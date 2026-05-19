@@ -1,53 +1,56 @@
 # rclone vs s3fs-fuse — production-relevant tests
 
-Generated: 2026-04-30T06:07:42Z
+Generated: 2026-05-19T21:11:27Z
 
 Three tests beyond throughput: **concurrent client scaling**, **network-blip
 resilience**, and **cache coherency across two mounts of the same backend**.
 All run inside the same bench container; both tools see the same network
 conditions, same backend, same disk.
 
-## Key findings (n = 1, default-fair settings)
+## ⚠ Retraction (2026-05-20)
 
-**1. The single-process headline reverses under low-to-medium concurrency.**
-At **N = 1 to N = 10**, s3fs-fuse aggregate throughput is **comparable or
-better** than rclone on the 70/30 mixed workload (e.g. N = 5 on MinIO:
-s3fs 686 MB/s vs rclone 244 MB/s, **2.8× s3fs win**). At **N = 20**,
-**s3fs collapses** (MinIO 686 → 150, Ceph 686 → 209) while rclone keeps
-scaling (MinIO 244 → 719, Ceph 465 → 475). **Crossover is around
-N = 10–15.** This is the most important finding for the AD-user case:
-*for 5–10 concurrent users, s3fs is the faster tool*; *for 15+, rclone is*.
+An earlier version of this report (Round 2, commit `2c9ac9d`) framed
+**rclone cross-mount coherency as a "deal-breaker"** with a 120 s timeout
+on every probe vs s3fs's 40–150 ms. **A clean rerun showed rclone at 0.03 s**,
+indistinguishable from s3fs and from the tuned variant. The original
+result did not reproduce. It was an artifact of accumulated test state
+at the tail of a long run, not rclone behavior. The dramatic finding is
+**retracted**; the original CSVs are kept as `coherency-run1.csv` next to
+the current `coherency.csv` so the contradiction is visible.
 
-**2. Network-blip recovery: rclone is 56 % faster on the backend that
-actually exercised the test.** On Ceph (where the 2 GiB upload was still
-in flight when the 30 s blackhole hit), rclone resumed in 92 s vs s3fs's
-144 s. On MinIO the upload finished before the blip started (23 s wall
-on both) — the test was a no-op there, not a tie.
+The same n=1 noise hit the **Ceph blip** numbers: rclone 92 s → 36 s and
+s3fs 144 s → 51 s on rerun. The "rclone recovers 56 % faster" claim from
+Round 2 does not survive a second sample.
 
-**3. Cross-mount cache coherency: rclone is broken at default settings,
-s3fs is essentially instant.** With two mounts of the same bucket and
-default cache TTLs, s3fs makes a fresh write visible to the second
-mount in **40–150 ms**. rclone **timed out at 120 s** (2-minute budget)
-on every probe — the default `--dir-cache-time = 5 m` means mount B
-keeps serving stale directory listings until its cache expires.
-**For an "apps write, AD users read" pattern, this is the deal-breaker
-for default rclone.** Tunable to `--dir-cache-time = 1 s` at the cost of
-metadata throughput.
+## Key findings (n = 1 each cell, treat as directional only)
 
-## Implication for the AD-user-on-StorageGRID question
+**The one robust finding from Round 2** is the concurrent-client crossover
+on the same mount:
 
-| concern | who wins (default settings) |
-|---|---|
-| 5–10 concurrent users on the same mount | s3fs-fuse |
-| 15–20+ concurrent users on the same mount | rclone |
-| Recovery from a gateway flap mid-upload | rclone |
-| App writes → other-mount user reads (visibility) | **s3fs-fuse, by a lot** |
-| Single-stream throughput (single process) | rclone (per Round 1) |
-| Windows-native deployment | rclone (s3fs-fuse has no Windows build) |
+- **N = 1–10**: s3fs-fuse is competitive or faster on the 70/30 mixed workload.
+- **N = 20**: s3fs-fuse **collapses** (e.g. MinIO 686 → 150 MB/s, Ceph 686 → 209 MB/s) while rclone keeps scaling.
+- Crossover band: **N ≈ 10 (MinIO), N ≈ 15 (Ceph)**.
 
-There is **no clean winner for the multi-user case** without tuning. The
-honest deployment recipe depends on user count *and* on whether you can
-tolerate a 5-minute stale-listing window for the cross-mount case.
+This reproduced across two different S3 backends in the same run, which
+gives it more credibility than a single-cell number. **It is still n = 1
+per cell** — the *shape* is trustworthy, the exact crossover N is not.
+
+**Everything else here is unfit for publication at n = 1.** That includes:
+
+- Coherency — retracted above.
+- Blip recovery — Ceph numbers moved 2–3× between runs; MinIO is finally
+  a real test now (8 GiB upload through a 30 s blackhole, rclone 183 s vs
+  s3fs 226 s) but is still a single sample.
+- Per-N latency p99 — sensitive to single outliers in 60 s windows.
+
+**What this lab needs before the next publishing pass:**
+
+1. n ≥ 3 per cell, report median + interquartile range.
+2. A genuine multi-host coherency setup (separate hosts, separate caches,
+   measurable network delay) so the result actually tests cross-mount
+   semantics rather than single-host instant visibility.
+3. Each cell run from a clean stack so accumulated state cannot create
+   another phantom finding.
 
 ## 1. Concurrent-client scaling
 
@@ -89,24 +92,45 @@ with wall ≈ baseline + 30 s. Failure: non-zero exit, partial upload, hang.
 
 | backend | tool | exit | total wall (s) | notes |
 |---|---|---:|---:|---|
-| minio | rclone | 0 | 23 | OK |
-| minio | s3fs | 0 | 23 | OK |
-| ceph | rclone | 0 | 92 | OK |
-| ceph | s3fs | 0 | 144 | OK |
+| minio | rclone | 0 | 183 | OK |
+| minio | s3fs | 0 | 226 | OK |
+| ceph | rclone | 0 | 36 | OK |
+| ceph | s3fs | 0 | 51 | OK |
 
 ## 3. Cache coherency across two mounts
 
-Same bucket mounted twice via the same FUSE tool (each mount has its own
-VFS / stat cache). Write a value via mount A, poll mount B every 0.5 s
-until B reads the new value. Reports stale-window in seconds. Default
-settings on both tools.
+Same bucket mounted twice via the same FUSE tool (each mount has its
+own VFS / stat cache). Write a value via mount A, poll mount B every
+0.5 s up to a 120 s budget until B reads the new value. `rclone` is
+the default `--dir-cache-time=5m`; `rclone-tuned` is
+`--dir-cache-time=1s --poll-interval=1s` to show the knob exists;
+`s3fs` is default.
 
-| backend | tool | publish (s) | update (s) |
+> **Retraction note.** An earlier single run (Round 2, commit 2c9ac9d)
+> reported rclone-default *timing out* (>120 s) on every probe and
+> framed it as a deal-breaker. **That did not reproduce.** On a clean
+> stack rclone-default is sub-second, same as rclone-tuned and s3fs.
+> The original timeout was an artifact of accumulated test state at
+> the tail of a long run (likely a stale rclone holding the mount /
+> an unflushed vfs-cache-writes queue), not rclone behavior. The
+> first-run CSV is kept as `coherency-run1.csv` so the contradiction
+> is visible, not hidden.
+>
+> What this lab can honestly say about coherency: **nothing strong.**
+> Both mounts run on one host with zero network separation, so all
+> sub-second numbers are a visibility *floor*, not a multi-host
+> promise — and the one dramatic result was noise. A real
+> cross-mount coherency test needs genuine host/geo separation and
+> n≥3; this lab provides neither yet.
+
+| backend | tool | publish | update |
 |---|---|---:|---:|
-| minio | rclone | timeout | timeout |
-| minio | s3fs | 0.04 | 0.05 |
-| ceph | rclone | timeout | timeout |
-| ceph | s3fs | 0.14 | 0.15 |
+| minio | rclone | 0.03 s | 0.01 s |
+| minio | rclone-tuned | 0.02 s | 0.01 s |
+| minio | s3fs | 0.05 s | 0.06 s |
+| ceph | rclone | 0.03 s | 0.01 s |
+| ceph | rclone-tuned | 0.02 s | 0.01 s |
+| ceph | s3fs | 0.10 s | 0.10 s |
 
 ## Reading the numbers
 
@@ -118,9 +142,7 @@ Exit non-zero or wall ≪ baseline = the tool gave up; data is in S3 only
 as much as the half-finished upload made it. Exit non-zero or wall ≫
 baseline + 30 s = retry storm or deadlock.
 
-**Coherency** — lower is better, but `0` likely means the lab's
-single-machine setup gave instant visibility (no real cache window). On
-a real multi-host deployment the numbers will be larger because the
-stat cache TTL applies; this lab cannot reproduce that without real
-geographic separation. Treat the relative ordering, not the absolute
-seconds.
+**Coherency** — sub-second numbers in this lab are a *floor* (one
+host, no network separation), not a multi-host promise. The earlier
+claim that rclone-default times out on this test was an artifact and
+has been retracted; see the methodology note in section 3.

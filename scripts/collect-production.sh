@@ -131,20 +131,46 @@ lat_p99_ms() {
     echo
     echo "## 3. Cache coherency across two mounts"
     echo
-    echo "Same bucket mounted twice via the same FUSE tool (each mount has its own"
-    echo "VFS / stat cache). Write a value via mount A, poll mount B every 0.5 s"
-    echo "until B reads the new value. Reports stale-window in seconds. Default"
-    echo "settings on both tools."
+    echo "Same bucket mounted twice via the same FUSE tool (each mount has its"
+    echo "own VFS / stat cache). Write a value via mount A, poll mount B every"
+    echo "0.5 s up to a 120 s budget until B reads the new value. \`rclone\` is"
+    echo "the default \`--dir-cache-time=5m\`; \`rclone-tuned\` is"
+    echo "\`--dir-cache-time=1s --poll-interval=1s\` to show the knob exists;"
+    echo "\`s3fs\` is default."
     echo
-    echo "| backend | tool | publish (s) | update (s) |"
+    echo "> **Retraction note.** An earlier single run (Round 2, commit 2c9ac9d)"
+    echo "> reported rclone-default *timing out* (>120 s) on every probe and"
+    echo "> framed it as a deal-breaker. **That did not reproduce.** On a clean"
+    echo "> stack rclone-default is sub-second, same as rclone-tuned and s3fs."
+    echo "> The original timeout was an artifact of accumulated test state at"
+    echo "> the tail of a long run (likely a stale rclone holding the mount /"
+    echo "> an unflushed vfs-cache-writes queue), not rclone behavior. The"
+    echo "> first-run CSV is kept as \`coherency-run1.csv\` so the contradiction"
+    echo "> is visible, not hidden."
+    echo ">"
+    echo "> What this lab can honestly say about coherency: **nothing strong.**"
+    echo "> Both mounts run on one host with zero network separation, so all"
+    echo "> sub-second numbers are a visibility *floor*, not a multi-host"
+    echo "> promise — and the one dramatic result was noise. A real"
+    echo "> cross-mount coherency test needs genuine host/geo separation and"
+    echo "> n≥3; this lab provides neither yet."
+    echo
+    echo "| backend | tool | publish | update |"
     echo "|---|---|---:|---:|"
+    fmt() {  # bound 'timeout' rather than printing a bare word
+        case "$1" in
+            timeout) echo "≥120 s (no converge)" ;;
+            "")      echo "—" ;;
+            *)       echo "${1} s" ;;
+        esac
+    }
     for backend in minio ceph; do
-        for tool in rclone s3fs; do
+        for tool in rclone rclone-tuned s3fs; do
             csv="$RAW/$backend/coherency/coherency.csv"
             if [[ -s "$csv" ]]; then
-                pub=$(awk -F, -v t="$tool" "\$1==t && \$2==\"publish\"{print \$3}" "$csv" | head -1)
-                upd=$(awk -F, -v t="$tool" "\$1==t && \$2==\"update\"{print \$3}" "$csv" | head -1)
-                echo "| $backend | $tool | ${pub:-—} | ${upd:-—} |"
+                pub=$(awk -F, -v t="$tool" '$1==t && $2=="publish"{print $3}' "$csv" | head -1)
+                upd=$(awk -F, -v t="$tool" '$1==t && $2=="update"{print $3}' "$csv" | head -1)
+                echo "| $backend | $tool | $(fmt "$pub") | $(fmt "$upd") |"
             else
                 echo "| $backend | $tool | — | — |"
             fi
@@ -162,12 +188,10 @@ lat_p99_ms() {
     echo "as much as the half-finished upload made it. Exit non-zero or wall ≫"
     echo "baseline + 30 s = retry storm or deadlock."
     echo
-    echo "**Coherency** — lower is better, but \`0\` likely means the lab's"
-    echo "single-machine setup gave instant visibility (no real cache window). On"
-    echo "a real multi-host deployment the numbers will be larger because the"
-    echo "stat cache TTL applies; this lab cannot reproduce that without real"
-    echo "geographic separation. Treat the relative ordering, not the absolute"
-    echo "seconds."
+    echo "**Coherency** — sub-second numbers in this lab are a *floor* (one"
+    echo "host, no network separation), not a multi-host promise. The earlier"
+    echo "claim that rclone-default times out on this test was an artifact and"
+    echo "has been retracted; see the methodology note in section 3."
 } > "$REPORT"
 
 echo "[collect-production] wrote $REPORT"
